@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Member {
 
     @Id
@@ -23,9 +25,9 @@ public class Member {
     private int age;
 
     @Builder
-    public Member(String name, int age, Long id) {
-        this.id = id;
+    public Member(String name, int age) {
         this.name = name;
         this.age = age;
     }
+
 }

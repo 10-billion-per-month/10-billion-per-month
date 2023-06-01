@@ -37,7 +37,7 @@ public class MemberService {
      * @param dto
      */
     public void editMember(MemberDto dto) {
-        memberRepository.save(dto.toEntity());
+        memberRepository.save(new Member(dto.getId(), dto.getName(), dto.getAge()));
     }
 
     /**
