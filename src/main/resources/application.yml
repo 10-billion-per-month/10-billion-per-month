@@ -1,0 +1,31 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    database: h2
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties: # property ?? ??
+      hibernate: # hibernate property ??
+        format_sql: true
+
+# ?? ?? ??
+logging:
+  level:
+    # hibernate ? ??? ?? ??? debug??? ??
+    # jpa hibernate? ???? sql? ??? ??? ???? ?? ??
+#    org.hibernate.SQL: debug
+    org.hibernate.type: trace # ?? ???? ????? ???? ??
+    open-in-view: false
+
+
