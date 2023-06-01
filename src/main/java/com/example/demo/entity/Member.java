@@ -23,7 +23,8 @@ public class Member {
     private int age;
 
     @Builder
-    public Member(String name, int age) {
+    public Member(String name, int age, Long id) {
+        this.id = id;
         this.name = name;
         this.age = age;
     }
