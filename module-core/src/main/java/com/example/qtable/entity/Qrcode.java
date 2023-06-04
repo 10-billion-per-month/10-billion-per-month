@@ -1,4 +1,4 @@
-package com.qtable.entity;
+package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,16 +14,12 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class Qrcode extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderId;
-    private Integer orderTotalPrice;
-    private String orderStatus;
-    private Long qrcodeId;
+    private Long QrcodeId;
     private Long storeId;
-    private Character deleteAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private String qrcodeImage;
+    private String qrcodeName;
 }

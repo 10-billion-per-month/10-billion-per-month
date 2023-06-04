@@ -1,12 +1,10 @@
-package com.qtable.entity;
+package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -14,14 +12,11 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Owner {
+public class Owner extends AuditingFields {
     @Id
     private Long ownerId;
     private String ownerPw;
     private String ownerName;
     private LocalDateTime ownerBirth;
     private String ownerStatus;
-    private Character deleteAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

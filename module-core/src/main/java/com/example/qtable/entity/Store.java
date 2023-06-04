@@ -1,4 +1,4 @@
-package com.qtable.entity;
+package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,20 +9,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Qrcode {
+public class Store extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long QrcodeId;
     private Long storeId;
-    private String qrcodeImage;
-    private String qrcodeName;
-    private Character deleteAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Long ownerId;
+    private String storeName;
+    private String storeDescrition;
+    private String storeImage;
+    private LocalTime storeOpenTime;
+    private LocalTime storeCloseTime;
+    private String storeStatus;
 }

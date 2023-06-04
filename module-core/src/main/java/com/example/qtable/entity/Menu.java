@@ -1,4 +1,4 @@
-package com.qtable.entity;
+package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,28 +9,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Store {
+public class Menu extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long menuId;
     private Long storeId;
-    private Long ownerId;
-    private String storeName;
-    private String storeDescrition;
-    private String storeImage;
-    private LocalTime storeOpenTime;
-    private LocalTime storeCloseTime;
-    private String storeStatus;
-    private Character deleteAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-
-
+    private Long categoryId;
+    private String menuName;
+    private Integer menuPrice;
+    private String menuImage;
+    private String menuStatus;
+    private String menuBadge;
+    private String menuDescription;
 }
