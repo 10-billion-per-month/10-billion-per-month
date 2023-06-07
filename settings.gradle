@@ -1,3 +1,4 @@
 rootProject.name = '10-billion-per-month'
 
 include 'module-core'
+include 'api-module'
