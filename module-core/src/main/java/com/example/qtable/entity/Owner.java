@@ -1,26 +1,38 @@
 package com.example.qtable.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
+@DynamicInsert
+@DynamicUpdate
 public class Owner extends AuditingFields {
 
     @Id
-    private String ownerId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long ownerId;
+    private String ownerEmail;
     private String ownerPw;
     private String ownerName;
     private LocalDateTime ownerBirth;
     private String ownerStatus;
 
+    @Builder
+    public Owner(String ownerEmail, String ownerPw, String ownerName, LocalDateTime ownerBirth, String ownerStatus) {
+        this.ownerEmail = ownerEmail;
+        this.ownerPw = ownerPw;
+        this.ownerName = ownerName;
+        this.ownerBirth = ownerBirth;
+        this.ownerStatus = ownerStatus;
+    }
 }
