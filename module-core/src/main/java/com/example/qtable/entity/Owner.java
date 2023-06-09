@@ -1,6 +1,7 @@
 package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +13,14 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Owner extends AuditingFields {
+
     @Id
-    private Long ownerId;
+    private String ownerId;
     private String ownerPw;
     private String ownerName;
     private LocalDateTime ownerBirth;
     private String ownerStatus;
+
 }

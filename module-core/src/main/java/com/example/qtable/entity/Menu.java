@@ -1,6 +1,7 @@
 package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,16 @@ public class Menu extends AuditingFields {
     private String menuStatus;
     private String menuBadge;
     private String menuDescription;
+
+    @Builder
+    public Menu(Long storeId, Long categoryId, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
+        this.storeId = storeId;
+        this.categoryId = categoryId;
+        this.menuName = menuName;
+        this.menuPrice = menuPrice;
+        this.menuImage = menuImage;
+        this.menuStatus = menuStatus;
+        this.menuBadge = menuBadge;
+        this.menuDescription = menuDescription;
+    }
 }

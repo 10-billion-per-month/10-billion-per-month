@@ -1,6 +1,7 @@
 package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,4 +28,15 @@ public class Store extends AuditingFields {
     private LocalTime storeOpenTime;
     private LocalTime storeCloseTime;
     private String storeStatus;
+
+    @Builder
+    public Store(Long ownerId, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus) {
+        this.ownerId = ownerId;
+        this.storeName = storeName;
+        this.storeDescrition = storeDescrition;
+        this.storeImage = storeImage;
+        this.storeOpenTime = storeOpenTime;
+        this.storeCloseTime = storeCloseTime;
+        this.storeStatus = storeStatus;
+    }
 }

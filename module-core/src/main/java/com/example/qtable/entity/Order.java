@@ -1,6 +1,7 @@
 package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,12 @@ public class Order extends AuditingFields {
     private String orderStatus;
     private Long qrcodeId;
     private Long storeId;
+
+    @Builder
+    public Order(Integer orderTotalPrice, String orderStatus, Long qrcodeId, Long storeId) {
+        this.orderTotalPrice = orderTotalPrice;
+        this.orderStatus = orderStatus;
+        this.qrcodeId = qrcodeId;
+        this.storeId = storeId;
+    }
 }

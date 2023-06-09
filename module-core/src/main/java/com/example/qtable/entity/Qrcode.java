@@ -1,6 +1,7 @@
 package com.example.qtable.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +19,15 @@ public class Qrcode extends AuditingFields {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long QrcodeId;
+    private Long qrcodeId;
     private Long storeId;
     private String qrcodeImage;
     private String qrcodeName;
+
+    @Builder
+    public Qrcode(Long storeId, String qrcodeImage, String qrcodeName) {
+        this.storeId = storeId;
+        this.qrcodeImage = qrcodeImage;
+        this.qrcodeName = qrcodeName;
+    }
 }
