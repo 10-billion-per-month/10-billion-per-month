@@ -5,8 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Where(clause = "delete_at = 'N'")
 public class Owner extends AuditingFields {
 
     @Id
@@ -25,6 +28,7 @@ public class Owner extends AuditingFields {
     private String ownerPw;
     private String ownerName;
     private LocalDateTime ownerBirth;
+    @ColumnDefault("'신규가입'")
     private String ownerStatus;
 
     @Builder

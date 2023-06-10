@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class AuditingFields {
 
-    @ColumnDefault("N")
+    @ColumnDefault("'N'")
     private String deleteAt;
     @CreatedDate
     private LocalDateTime createdAt;
