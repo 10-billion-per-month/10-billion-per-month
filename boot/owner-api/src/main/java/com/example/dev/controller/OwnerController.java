@@ -1,7 +1,7 @@
 package com.example.dev.controller;
 
-import com.example.dev.dto.DuplicateCheckOwnerEmailRequestDto;
-import com.example.dev.dto.SetOwnerRequestDto;
+import com.example.dev.dto.request.DuplicateCheckOwnerEmailRequestDto;
+import com.example.dev.dto.request.SetOwnerRequestDto;
 import com.example.dev.service.OwnerReadService;
 import com.example.dev.service.OwnerWriteService;
 import lombok.RequiredArgsConstructor;
