@@ -1,4 +1,4 @@
-package com.example.apimodule.service;
+package com.example.dev.service;
 
 import com.example.dev.dto.OwnerDto;
 import com.example.dev.repository.OwnerRepository;
@@ -49,7 +49,7 @@ class OwnerWriteServiceTest {
                 .hasSize(1) // 사이즈가 하나있는걸 테스트한다.
                 .extracting("ownerName", "ownerEmail")
                 .contains(
-                        Tuple.tuple("정가영", "wjdrkdudwkd@playnomm.com")
+                        Tuple.tuple("정가영", "wjdrkdudwkd@email.com")
                 );
         for (Owner owner : all) {
             System.out.println("owner.getOwnerId() = " + owner.getOwnerId());
@@ -78,7 +78,7 @@ class OwnerWriteServiceTest {
         return OwnerDto.builder()
                 .ownerName("정가영")
                 .ownerBirth(LocalDateTime.now())
-                .ownerEmail("wjdrkdudwkd@playnomm.com")
+                .ownerEmail("wjdrkdudwkd@email.com")
                 .ownerPw("rkdud123!")
                 .build();
     }
