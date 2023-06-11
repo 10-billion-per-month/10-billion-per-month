@@ -8,6 +8,11 @@ configurations {
     asciidoctorExt
 }
 
+// META-INF/build-info.properties 파일 생성
+springBoot {
+    buildInfo()
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //    implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -15,8 +20,9 @@ dependencies {
 
     runtimeOnly 'com.h2database:h2'
 
-    // module-core
+    // import project
     implementation project(':data-core')
+    implementation project(':boot-api-common')
 
 //    testImplementation 'org.springframework.security:spring-security-test'
 

@@ -1,5 +1,6 @@
-package com.example.dev.dto;
+package com.example.dev.dto.request;
 
+import com.example.dev.dto.OwnerDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
