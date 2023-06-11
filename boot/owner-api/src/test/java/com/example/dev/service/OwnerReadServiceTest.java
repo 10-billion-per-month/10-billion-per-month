@@ -1,4 +1,4 @@
-package com.example.apimodule.service;
+package com.example.dev.service;
 
 import com.example.dev.dto.OwnerDto;
 import com.example.dev.repository.OwnerRepository;
