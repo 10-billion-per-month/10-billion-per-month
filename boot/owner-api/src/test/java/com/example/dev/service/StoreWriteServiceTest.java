@@ -69,18 +69,18 @@ public class StoreWriteServiceTest {
                 .contains(Tuple.tuple("1번 가게", "url"));
     }
 
-//    @Test
-//    @DisplayName("사장님이 존재하지 않을 때 가게를 등록 한다.")
-//    void setStoreThen() {
-//
-//        // given : 무엇을 할것인가? 데이터 세팅
-//        StoreDto storeDto = createdStoreDto(9999L);
-//
-//        // when : 실제 수행 & then : 수행 결과 확인
-//        Assertions.assertThatThrownBy(() -> storeWriteService.setStore(storeDto))
-//                .isInstanceOf(NullPointerException.class)
-//                .message().isEqualTo("등록되지 않은 사장님입니다.");
-//
-//    }
+    @Test
+    @DisplayName("사장님이 존재하지 않을 때 가게를 등록 한다.")
+    void setStoreThen() {
+
+        // given : 무엇을 할것인가? 데이터 세팅
+        StoreDto storeDto = createdStoreDto(9999L);
+
+        // when : 실제 수행 & then : 수행 결과 확인
+        Assertions.assertThatThrownBy(() -> storeWriteService.setStore(storeDto))
+                .isInstanceOf(NullPointerException.class)
+                .message().isEqualTo("등록되지 않은 사장님입니다.");
+
+    }
 
 }

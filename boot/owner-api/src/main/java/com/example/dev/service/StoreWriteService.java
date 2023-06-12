@@ -21,8 +21,8 @@ public class StoreWriteService {
      * @return
      */
     public void setStore(StoreDto dto) {
-        Owner owner = ownerRepository.getReferenceById(dto.getOwnerId());
-//        if(owner == null) throw new NullPointerException("등록되지 않은 사장님입니다.");
+        Owner owner = ownerRepository.findById(dto.getOwnerId()).get();
+        if(owner == null) throw new NullPointerException("등록되지 않은 사장님입니다.");
         storeRepository.save(dto.toEntity(owner));
     }
 }
