@@ -5,6 +5,7 @@ import com.example.dev.dto.OwnerDto;
 import com.example.dev.dto.StoreDto;
 import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
+import com.example.dev.exception.CommonException;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import org.assertj.core.api.Assertions;
@@ -78,7 +79,7 @@ public class StoreWriteServiceTest {
 
         // when : 실제 수행 & then : 수행 결과 확인
         Assertions.assertThatThrownBy(() -> storeWriteService.setStore(storeDto))
-                .isInstanceOf(NullPointerException.class)
+                .isInstanceOf(CommonException.class)
                 .message().isEqualTo("등록되지 않은 사장님입니다.");
 
     }
