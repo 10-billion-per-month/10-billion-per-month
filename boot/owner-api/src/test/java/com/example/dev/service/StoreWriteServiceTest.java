@@ -1,14 +1,14 @@
 package com.example.dev.service;
 
-import ch.qos.logback.classic.model.processor.LogbackClassicDefaultNestedComponentRules;
-import com.example.dev.dto.OwnerDto;
 import com.example.dev.dto.StoreDto;
 import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
+import com.example.dev.exception.CommonException;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,12 @@ public class StoreWriteServiceTest {
 
     @Autowired
     OwnerRepository ownerRepository;
+
+    // 하나의 테스트 시작 전
+    @BeforeEach
+    void setUp() {
+        ownerRepository.deleteAllInBatch();
+    }
 
     private StoreDto createdStoreDto(Long ownerId) {
         return StoreDto.builder()
@@ -78,9 +84,8 @@ public class StoreWriteServiceTest {
 
         // when : 실제 수행 & then : 수행 결과 확인
         Assertions.assertThatThrownBy(() -> storeWriteService.setStore(storeDto))
-                .isInstanceOf(NullPointerException.class)
-                .message().isEqualTo("등록되지 않은 사장님입니다.");
-
+                .isInstanceOf(CommonException.class);
     }
+
 
 }
