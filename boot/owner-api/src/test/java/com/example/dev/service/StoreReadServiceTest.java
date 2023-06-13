@@ -1,6 +1,7 @@
 package com.example.dev.service;
 
 import com.example.dev.dto.StoreDto;
+import com.example.dev.dto.response.StoreResponseDto;
 import com.example.dev.dto.response.StoresResponseDto;
 import com.example.dev.entity.Owner;
 import com.example.dev.repository.OwnerRepository;
@@ -34,7 +35,7 @@ public class StoreReadServiceTest {
     // 하나의 테스트 시작 전
     @BeforeEach
     void setUp() {
-        ownerRepository.deleteAllInBatch();
+        storeRepository.deleteAllInBatch();
     }
 
     private StoreDto createdStoreDto(Long ownerId) {
@@ -86,10 +87,10 @@ public class StoreReadServiceTest {
         // then : 수행 결과 확인
         Assertions.assertThat(stores)
                 .hasSize(3)
-                .extracting("storeName", "storeDescrition")
-                .contains(Tuple.tuple(storeDto6.getStoreName(), storeDto6.getStoreDescrition())
-                , Tuple.tuple(storeDto5.getStoreName(), storeDto5.getStoreDescrition())
-                , Tuple.tuple(storeDto4.getStoreName(), storeDto4.getStoreDescrition())
+                .extracting("storeName", "storeImage")
+                .contains(Tuple.tuple(storeDto6.getStoreName(), storeDto6.getStoreImage())
+                , Tuple.tuple(storeDto5.getStoreName(), storeDto5.getStoreImage())
+                , Tuple.tuple(storeDto4.getStoreName(), storeDto4.getStoreImage())
                 );
     }
 
@@ -120,5 +121,39 @@ public class StoreReadServiceTest {
         // then : 수행 결과 확인
         Assertions.assertThat(storeCount)
                 .isEqualTo(6);
+    }
+
+    @Test
+    @DisplayName("가게가 존재 할 때 가게 상세 정보 조회")
+    void getStore() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        Owner owner = createdOwnerEntity();
+        StoreDto storeDto1 = createdStoreDto(owner.getOwnerId());
+        storeRepository.save(storeDto1.toEntity(owner));
+
+        // when : 실제 수행
+        StoreResponseDto store = storeReadService.getStore(1L);
+
+        // then : 수행 결과 확인
+        Assertions.assertThat(store.getStoreName())
+                .isEqualTo(storeDto1.getStoreName());
+        Assertions.assertThat(store.getStoreStatus())
+                .isEqualTo(storeDto1.getStoreStatus());
+        Assertions.assertThat(store.getStoreImage())
+                .isEqualTo(storeDto1.getStoreImage());
+
+    }
+
+
+    @Test
+    @DisplayName("가게가 존재 하지 않을 때 예외 발생")
+    void getStoreException() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        StoreDto storeDto1 = createdStoreDto(1L);
+
+        // when : 실제 수행 &&  then : 수행 결과 확인
+        Assertions.assertThatThrownBy(() -> storeReadService.getStore(1L))
+                        .isInstanceOf(IllegalArgumentException.class)
+                                .message().isEqualTo("존재하지 않는 가게입니다.");
     }
 }

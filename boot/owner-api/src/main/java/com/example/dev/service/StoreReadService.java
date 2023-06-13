@@ -1,7 +1,9 @@
 package com.example.dev.service;
 
 import com.example.dev.dto.StoreDto;
+import com.example.dev.dto.response.StoreResponseDto;
 import com.example.dev.dto.response.StoresResponseDto;
+import com.example.dev.entity.Store;
 import com.example.dev.exception.CommonException;
 import com.example.dev.exception.ErrorCode;
 import com.example.dev.repository.OwnerRepository;
@@ -41,5 +43,16 @@ public class StoreReadService {
      */
     public Integer getStoreCount(long ownerId) {
         return storeRepository.countStoreByOwner_OwnerId(ownerId);
+    }
+
+    /**
+     * 가게 상세 정보 조회
+     * @param storeId
+     * @return
+     */
+    public StoreResponseDto getStore(long storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 가게입니다."));
+        return StoreResponseDto.toResponseDto(StoreDto.toDto(store));
     }
 }

@@ -3,6 +3,7 @@ package com.example.dev.controller;
 import com.example.dev.dto.SetStoreRequestDto;
 import com.example.dev.dto.request.PageRequestDto;
 import com.example.dev.dto.request.StoresRequestDto;
+import com.example.dev.dto.response.StoreResponseDto;
 import com.example.dev.dto.response.StoresResponseDto;
 import com.example.dev.service.StoreReadService;
 import com.example.dev.service.StoreWriteService;
@@ -41,9 +42,24 @@ public class StoreController {
         return storeReadService.getStores(requestDto.toDto(), pageRequestDto.toPageRequest());
     }
 
+    /**
+     * 가게 총 개수 조회
+     * @param ownerId
+     * @return
+     */
     @GetMapping("/v1/storeCount")
-    public Integer getStoreCount(int ownerId) {
+    public Integer getStoreCount(long ownerId) {
         return storeReadService.getStoreCount(ownerId);
+    }
+
+    /**
+     * 가게 상세 조회
+     * @param
+     * @return
+     */
+    @GetMapping("/v1/store")
+    public StoreResponseDto getStore(long storeId) {
+        return storeReadService.getStore(storeId);
     }
 
 
