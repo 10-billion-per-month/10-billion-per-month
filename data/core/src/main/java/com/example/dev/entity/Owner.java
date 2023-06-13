@@ -39,4 +39,5 @@ public class Owner extends AuditingFields {
         this.ownerBirth = ownerBirth;
         this.ownerStatus = ownerStatus;
     }
+
 }

@@ -21,7 +21,8 @@ public class StoreDto {
 
 
     @Builder
-    public StoreDto(Long ownerId, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus) {
+    public StoreDto(Long storeId, Long ownerId, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus) {
+        this.storeId = storeId;
         this.ownerId = ownerId;
         this.storeName = storeName;
         this.storeDescrition = storeDescrition;
@@ -40,6 +41,19 @@ public class StoreDto {
                 .storeCloseTime(storeCloseTime)
                 .storeStatus(storeStatus)
                 .storeImage(storeImage)
+                .build();
+    }
+
+    public static StoreDto toDto(Store store) {
+        return StoreDto.builder()
+                .ownerId(store.getOwner().getOwnerId())
+                .storeId(store.getStoreId())
+                .storeName(store.getStoreName())
+                .storeDescrition(store.getStoreDescrition())
+                .storeImage(store.getStoreImage())
+                .storeOpenTime(store.getStoreOpenTime())
+                .storeCloseTime(store.getStoreCloseTime())
+                .storeStatus(store.getStoreStatus())
                 .build();
     }
 }
