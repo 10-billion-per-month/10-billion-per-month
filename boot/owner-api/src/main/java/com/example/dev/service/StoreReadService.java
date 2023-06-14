@@ -50,9 +50,9 @@ public class StoreReadService {
      * @param storeId
      * @return
      */
-    public StoreResponseDto getStore(long storeId) {
+    public StoreDto getStore(long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 가게입니다."));
-        return StoreResponseDto.toResponseDto(StoreDto.toDto(store));
+        return StoreDto.toDto(store);
     }
 }

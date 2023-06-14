@@ -143,7 +143,7 @@ public class StoreReadServiceTest {
         List<Store> allByOwner = storeRepository.findAllByOwner(owner);
 
         // when : 실제 수행
-        StoreResponseDto store = storeReadService.getStore(allByOwner.get(0).getStoreId());
+        StoreDto store = storeReadService.getStore(allByOwner.get(0).getStoreId());
 
         // then : 수행 결과 확인
         Assertions.assertThat(store.getStoreName())

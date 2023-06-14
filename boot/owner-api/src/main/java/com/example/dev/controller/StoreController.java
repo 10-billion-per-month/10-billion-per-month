@@ -1,6 +1,7 @@
 package com.example.dev.controller;
 
 import com.example.dev.dto.SetStoreRequestDto;
+import com.example.dev.dto.StoreDto;
 import com.example.dev.dto.request.PageRequestDto;
 import com.example.dev.dto.request.StoresRequestDto;
 import com.example.dev.dto.response.StoreResponseDto;
@@ -62,8 +63,7 @@ public class StoreController {
      */
     @GetMapping("/v1/store")
     public StoreResponseDto getStore(long storeId) {
-
-        return storeReadService.getStore(storeId);
+        return StoreResponseDto.toResponseDto(storeReadService.getStore(storeId));
     }
 
 
