@@ -22,14 +22,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
      * @param pageRequest
      * @return
      */
-    Page<Store> findAllByOwner_OwnerId(Long ownerId, PageRequest pageRequest);
-
-    /**
-     * 사장님 아이디로 가게 목록 조회 2
-     * @param ownerId
-     * @param pageRequest
-     * @return
-     */
     Page<Store> findAllByOwner_OwnerId(Long ownerId, Pageable pageRequest);
 
     /**

@@ -25,31 +25,15 @@ public class StoreReadService {
     private final OwnerRepository ownerRepository;
 
     /**
-     * 가게 목록 조회
-     * @param dto
-     * @param pageRequest
-     * @return
-     */
-    public List<StoresResponseDto> getStores(StoreDto dto, PageRequest pageRequest) {
-        ownerRepository.findById(dto.getOwnerId())
-                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 사장님입니다.", dto.getOwnerId())));
-
-        List<StoreDto> storeDtos = storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), pageRequest).stream().map(StoreDto::toDto).toList();
-        return storeDtos.stream().map(StoresResponseDto::toResponseDto).collect(Collectors.toList());
-    }
-
-    /**
      * 가게 목록 조회 2
      * @param dto
-     * @param pageRequest
      * @return
      */
-    public List<StoresResponseDto> getStores2(StoreDto dto) {
+    public Page<StoreDto> getStores(StoreDto dto) {
         ownerRepository.findById(dto.getOwnerId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 사장님입니다.", dto.getOwnerId())));
 
-        List<StoreDto> storeDtos = storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), dto.getPageable()).stream().map(StoreDto::toDto).toList();
-        return storeDtos.stream().map(StoresResponseDto::toResponseDto).collect(Collectors.toList());
+        return storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), dto.getPageable()).map(StoreDto::toDto);
     }
 
     /**

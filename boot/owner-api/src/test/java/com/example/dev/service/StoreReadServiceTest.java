@@ -14,13 +14,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Random;
 
 @SpringBootTest
 public class StoreReadServiceTest {
@@ -79,12 +80,12 @@ public class StoreReadServiceTest {
         storeRepository.save(storeDto5.toEntity(owner));
         storeRepository.save(storeDto6.toEntity(owner));
 
-        StoreDto storeDto = StoreDto.builder().ownerId(owner.getOwnerId()).build();
-        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by("storeId").descending());
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("storeId").descending());
+        StoreDto storeDto = StoreDto.builder().ownerId(owner.getOwnerId()).pageable(pageable).build();
 
         // when : 실제 수행
-        List<StoresResponseDto> stores = storeReadService.getStores(storeDto, pageRequest);
-
+        Page<StoreDto> stores = storeReadService.getStores(storeDto);
+        
         // then : 수행 결과 확인
         Assertions.assertThat(stores)
                 .hasSize(3)
@@ -93,6 +94,14 @@ public class StoreReadServiceTest {
                 , Tuple.tuple(storeDto5.getStoreName(), storeDto5.getStoreImage())
                 , Tuple.tuple(storeDto4.getStoreName(), storeDto4.getStoreImage())
                 );
+        
+        // 페이징 데이터 확인
+        Assertions.assertThat(stores.getTotalElements())
+                .isEqualTo(6);
+        Assertions.assertThat(stores.getTotalPages())
+                .isEqualTo(2);
+        System.out.println("stores.toString() = " + stores.toString());
+
     }
 
 

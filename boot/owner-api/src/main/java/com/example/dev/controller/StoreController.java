@@ -8,7 +8,7 @@ import com.example.dev.dto.response.StoresResponseDto;
 import com.example.dev.service.StoreReadService;
 import com.example.dev.service.StoreWriteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,25 +34,15 @@ public class StoreController {
         storeWriteService.setStore(requestDto.toDto());
     }
 
-    /**
-     * 가게 목록 조회
-     * @param requestDto
-     * @param pageRequestDto
-     * @return
-     */
-    @GetMapping("/v1/stores")
-    public List<StoresResponseDto> getStores(StoresRequestDto requestDto, PageRequestDto pageRequestDto) {
-        return storeReadService.getStores(requestDto.toDto(), pageRequestDto.toPageRequest());
-    }
 
     /**
      * 가게 목록 조회 2
-     * @param pageable
+     * @param requestDto
      * @return
      */
-    @GetMapping("/v2/stores")
-    public List<StoresResponseDto> getStores(@PageableDefault(size=10, sort="storeId", direction = Sort.Direction.ASC) StoresRequestDto pageable) {
-        return storeReadService.getStores2(pageable.toDto());
+    @GetMapping("/v1/stores")
+    public Page<StoresResponseDto> getStores(@PageableDefault(size = 10, sort = "storeId", direction = Sort.Direction.ASC) StoresRequestDto requestDto) {
+        return storeReadService.getStores(requestDto.toDto()).map(StoresResponseDto::toResponseDto);
     }
 
     /**
@@ -72,6 +62,7 @@ public class StoreController {
      */
     @GetMapping("/v1/store")
     public StoreResponseDto getStore(long storeId) {
+
         return storeReadService.getStore(storeId);
     }
 
