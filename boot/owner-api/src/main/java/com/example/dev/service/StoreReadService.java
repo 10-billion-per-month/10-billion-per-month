@@ -9,7 +9,9 @@ import com.example.dev.exception.ErrorCode;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,20 @@ public class StoreReadService {
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 사장님입니다.", dto.getOwnerId())));
 
         List<StoreDto> storeDtos = storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), pageRequest).stream().map(StoreDto::toDto).toList();
+        return storeDtos.stream().map(StoresResponseDto::toResponseDto).collect(Collectors.toList());
+    }
+
+    /**
+     * 가게 목록 조회 2
+     * @param dto
+     * @param pageRequest
+     * @return
+     */
+    public List<StoresResponseDto> getStores2(StoreDto dto) {
+        ownerRepository.findById(dto.getOwnerId())
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 사장님입니다.", dto.getOwnerId())));
+
+        List<StoreDto> storeDtos = storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), dto.getPageable()).stream().map(StoreDto::toDto).toList();
         return storeDtos.stream().map(StoresResponseDto::toResponseDto).collect(Collectors.toList());
     }
 

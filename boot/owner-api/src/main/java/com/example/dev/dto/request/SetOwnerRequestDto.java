@@ -1,6 +1,7 @@
 package com.example.dev.dto.request;
 
 import com.example.dev.dto.OwnerDto;
+import com.example.dev.dto.validation.email.EmailUnique;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SetOwnerRequestDto {
 
+    @EmailUnique
     private String ownerEmail;
     private String ownerPw;
     private String ownerName;

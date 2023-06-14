@@ -4,6 +4,7 @@ import com.example.dev.dto.StoreDto;
 import com.example.dev.dto.response.StoreResponseDto;
 import com.example.dev.dto.response.StoresResponseDto;
 import com.example.dev.entity.Owner;
+import com.example.dev.entity.Store;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import org.assertj.core.api.Assertions;
@@ -130,9 +131,10 @@ public class StoreReadServiceTest {
         Owner owner = createdOwnerEntity();
         StoreDto storeDto1 = createdStoreDto(owner.getOwnerId());
         storeRepository.save(storeDto1.toEntity(owner));
+        List<Store> allByOwner = storeRepository.findAllByOwner(owner);
 
         // when : 실제 수행
-        StoreResponseDto store = storeReadService.getStore(1L);
+        StoreResponseDto store = storeReadService.getStore(allByOwner.get(0).getStoreId());
 
         // then : 수행 결과 확인
         Assertions.assertThat(store.getStoreName())
