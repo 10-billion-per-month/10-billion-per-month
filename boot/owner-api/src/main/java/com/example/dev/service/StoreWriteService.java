@@ -50,4 +50,17 @@ public class StoreWriteService {
                         .storeImage(dto.getStoreImage())
                         .build(), false);
     }
+
+    /**
+     * 가게 삭제
+     * @param storeId
+     */
+    @Transactional
+    public void deleteStore(long storeId) {
+        // todo 권한 검증
+
+        storeRepository.findById(storeId)
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 가게입니다.", storeId)))
+                .modifyStore(Store.builder().deleteAt("Y").build(), false);
+    }
 }

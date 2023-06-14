@@ -32,7 +32,7 @@ public class Store extends AuditingFields {
     private String storeStatus;
 
     @Builder
-    public Store(Owner owner, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus) {
+    public Store(String deleteAt, Owner owner, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus) {
         this.owner = owner;
         this.storeName = storeName;
         this.storeDescrition = storeDescrition;
@@ -40,6 +40,7 @@ public class Store extends AuditingFields {
         this.storeOpenTime = storeOpenTime;
         this.storeCloseTime = storeCloseTime;
         this.storeStatus = storeStatus;
+        super.deleteAt = deleteAt;
     }
 
     // 수정
@@ -59,6 +60,7 @@ public class Store extends AuditingFields {
             this.storeOpenTime = store.getStoreOpenTime() != null ? store.getStoreOpenTime() : this.storeOpenTime;
             this.storeCloseTime = store.getStoreCloseTime() != null ? store.getStoreCloseTime() : this.storeCloseTime;
             this.storeStatus = store.getStoreStatus() != null ? store.getStoreStatus() : this.storeStatus;
+            super.deleteAt = store.getDeleteAt() != null ? store.getDeleteAt() : super.deleteAt;
         }
     }
 }
