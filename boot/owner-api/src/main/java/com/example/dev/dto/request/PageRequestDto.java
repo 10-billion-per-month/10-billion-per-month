@@ -16,13 +16,10 @@ public class PageRequestDto {
     private static String order;
 
     public static PageRequest toPageRequest(){
-        switch (order) {
-            case "desc" :
-                return PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
-            case "asc" :
-                return PageRequest.of(pageNum, pageSize, Sort.by(sortBy).ascending());
-            default :
-                throw new CommonException(ErrorCode.INVALID_INPUT_VALUE);
-        }
+        return switch (order) {
+            case "desc" -> PageRequest.of(pageNum, pageSize, Sort.by(sortBy).descending());
+            case "asc" -> PageRequest.of(pageNum, pageSize, Sort.by(sortBy).ascending());
+            default -> throw new CommonException(ErrorCode.INVALID_INPUT_VALUE);
+        };
     }
 }

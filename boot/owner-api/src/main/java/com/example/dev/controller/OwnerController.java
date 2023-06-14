@@ -1,7 +1,7 @@
 package com.example.dev.controller;
 
 import com.example.dev.dto.request.DuplicateCheckOwnerEmailRequestDto;
-import com.example.dev.dto.request.SetOwnerRequestDto;
+import com.example.dev.dto.request.CreateOwnerRequestDto;
 import com.example.dev.service.OwnerReadService;
 import com.example.dev.service.OwnerWriteService;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,11 @@ public class OwnerController {
 
     /**
      * 사장님 회원가입
-     * @param setOwnerRequestDto
+     * @param createOwnerRequestDto
      */
     @PostMapping("/v1/setOwner")
-    public void setOwner(SetOwnerRequestDto setOwnerRequestDto) {
-        ownerWriteService.setOwner(setOwnerRequestDto.toDto());
+    public void createOwner(CreateOwnerRequestDto createOwnerRequestDto) {
+        ownerWriteService.createOwner(createOwnerRequestDto.toDto());
     }
 
     /**

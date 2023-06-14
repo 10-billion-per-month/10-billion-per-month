@@ -9,7 +9,9 @@ import com.example.dev.exception.ErrorCode;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,17 +25,15 @@ public class StoreReadService {
     private final OwnerRepository ownerRepository;
 
     /**
-     * 가게 목록 조회
+     * 가게 목록 조회 2
      * @param dto
-     * @param pageRequest
      * @return
      */
-    public List<StoresResponseDto> getStores(StoreDto dto, PageRequest pageRequest) {
+    public Page<StoreDto> getStores(StoreDto dto) {
         ownerRepository.findById(dto.getOwnerId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 사장님입니다.", dto.getOwnerId())));
 
-        List<StoreDto> storeDtos = storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), pageRequest).stream().map(StoreDto::toDto).toList();
-        return storeDtos.stream().map(StoresResponseDto::toResponseDto).collect(Collectors.toList());
+        return storeRepository.findAllByOwner_OwnerId(dto.getOwnerId(), dto.getPageable()).map(StoreDto::toDto);
     }
 
     /**
@@ -50,9 +50,9 @@ public class StoreReadService {
      * @param storeId
      * @return
      */
-    public StoreResponseDto getStore(long storeId) {
+    public StoreDto getStore(long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 가게입니다."));
-        return StoreResponseDto.toResponseDto(StoreDto.toDto(store));
+        return StoreDto.toDto(store);
     }
 }

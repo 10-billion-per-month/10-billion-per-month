@@ -4,6 +4,7 @@ import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +22,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
      * @param pageRequest
      * @return
      */
-    Page<Store> findAllByOwner_OwnerId(Long ownerId, PageRequest pageRequest);
+    Page<Store> findAllByOwner_OwnerId(Long ownerId, Pageable pageRequest);
 
     /**
      * 사장님 가게 총 개수

@@ -41,7 +41,7 @@ class OwnerWriteServiceTest {
         OwnerDto ownerDto = createdOwnerDto();
 
         // when : 실제 수행
-        ownerWriteService.setOwner(ownerDto);
+        ownerWriteService.createOwner(ownerDto);
 
         // then : 수행 결과 확인
         List<Owner> all = ownerRepository.findAll();
@@ -69,7 +69,7 @@ class OwnerWriteServiceTest {
         ownerRepository.save(ownerDto.toEntity());
 
         // when : 실제 수행 & then : 수행 결과 확인
-        Assertions.assertThatThrownBy(() -> ownerWriteService.setOwner(ownerDto))
+        Assertions.assertThatThrownBy(() -> ownerWriteService.createOwner(ownerDto))
                 .isInstanceOf(IllegalStateException.class)
                 .message().isEqualTo("이미 있는 아이디입니다.");
     }

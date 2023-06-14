@@ -4,6 +4,7 @@ import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalTime;
 
@@ -18,10 +19,10 @@ public class StoreDto {
     private LocalTime storeOpenTime;
     private LocalTime storeCloseTime;
     private String storeStatus;
-
+    private Pageable pageable;
 
     @Builder
-    public StoreDto(Long storeId, Long ownerId, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus) {
+    public StoreDto(Long storeId, Long ownerId, String storeName, String storeDescrition, String storeImage, LocalTime storeOpenTime, LocalTime storeCloseTime, String storeStatus, Pageable pageable) {
         this.storeId = storeId;
         this.ownerId = ownerId;
         this.storeName = storeName;
@@ -30,6 +31,7 @@ public class StoreDto {
         this.storeOpenTime = storeOpenTime;
         this.storeCloseTime = storeCloseTime;
         this.storeStatus = storeStatus;
+        this.pageable = pageable;
     }
 
     public Store toEntity(Owner owner) {

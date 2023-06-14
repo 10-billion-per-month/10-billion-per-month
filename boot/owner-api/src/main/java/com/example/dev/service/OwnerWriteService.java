@@ -17,7 +17,7 @@ public class OwnerWriteService {
      * 사장님 회원가입
      * @param ownerDto
      */
-    public void setOwner(OwnerDto ownerDto) {
+    public void createOwner(OwnerDto ownerDto) {
         ownerRepository.findByOwnerEmail(ownerDto.getOwnerEmail())
                         .ifPresent(x -> { throw new IllegalStateException("이미 있는 아이디입니다."); });
 
