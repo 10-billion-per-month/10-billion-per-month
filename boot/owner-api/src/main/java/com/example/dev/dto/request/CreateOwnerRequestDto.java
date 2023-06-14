@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class SetOwnerRequestDto {
+public class CreateOwnerRequestDto {
 
     @EmailUnique
     private String ownerEmail;

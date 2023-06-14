@@ -1,16 +1,14 @@
-package com.example.dev.dto;
+package com.example.dev.dto.request;
 
-import com.example.dev.entity.Owner;
-import lombok.AllArgsConstructor;
+import com.example.dev.dto.StoreDto;
 import lombok.Getter;
 
 import java.time.LocalTime;
 
 @Getter
-@AllArgsConstructor
-public class SetStoreRequestDto {
+public class ModifyStoreRequestDto {
 
-    private Long ownerId;
+    private Long storeId;
     private String storeName;
     private String storeDescrition;
     private String storeImage;
@@ -19,7 +17,7 @@ public class SetStoreRequestDto {
 
     public StoreDto toDto() {
         return StoreDto.builder()
-                .ownerId(ownerId)
+                .storeId(storeId)
                 .storeName(storeName)
                 .storeDescrition(storeDescrition)
                 .storeImage(storeImage)

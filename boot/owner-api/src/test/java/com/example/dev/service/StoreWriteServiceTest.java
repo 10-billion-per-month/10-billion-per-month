@@ -7,6 +7,7 @@ import com.example.dev.exception.CommonException;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Condition;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class StoreWriteServiceTest {
@@ -34,6 +36,10 @@ public class StoreWriteServiceTest {
     @BeforeEach
     void setUp() {
         ownerRepository.deleteAllInBatch();
+    }
+
+    private Store createdStore(Owner owner, StoreDto storeDto) {
+        return storeRepository.save(storeDto.toEntity(owner));
     }
 
     private StoreDto createdStoreDto(Long ownerId) {
@@ -65,7 +71,7 @@ public class StoreWriteServiceTest {
         StoreDto storeDto = createdStoreDto(owner.getOwnerId());
 
         // when : 실제 수행
-        storeWriteService.setStore(storeDto);
+        storeWriteService.createStore(storeDto);
 
         // then : 수행 결과 확인
         List<Store> storeList = storeRepository.findAllByOwner(owner);
@@ -83,8 +89,33 @@ public class StoreWriteServiceTest {
         StoreDto storeDto = createdStoreDto(9999L);
 
         // when : 실제 수행 & then : 수행 결과 확인
-        Assertions.assertThatThrownBy(() -> storeWriteService.setStore(storeDto))
+        Assertions.assertThatThrownBy(() -> storeWriteService.createStore(storeDto))
                 .isInstanceOf(CommonException.class);
+    }
+
+    @Test
+    @DisplayName("가게 정보를 수정 한다.")
+    void modifyStore() {
+
+        // given : 무엇을 할것인가? 데이터 세팅
+        Owner owner = createdOwnerEntity();
+        StoreDto storeDto = createdStoreDto(owner.getOwnerId());
+        Store store = createdStore(owner, storeDto);
+
+        StoreDto 가게_이름_변경 = StoreDto.builder()
+                .storeId(store.getStoreId())
+                .storeName("가게 이름 변경")
+                .build();
+
+        // when : 실제 수행
+        storeWriteService.modifyStore(가게_이름_변경);
+
+        // then : 수행 결과 확인
+        Store changeStore = storeRepository.findById(store.getStoreId()).get();
+        Assertions.assertThat(changeStore.getStoreName())
+                .isEqualTo("가게 이름 변경");
+        Assertions.assertThat(changeStore.getStoreImage())
+                .isEqualTo(store.getStoreImage());
     }
 
 

@@ -41,4 +41,24 @@ public class Store extends AuditingFields {
         this.storeCloseTime = storeCloseTime;
         this.storeStatus = storeStatus;
     }
+
+    // 수정
+    public void modifyStore(Store store, boolean nullAble) {
+        if (nullAble) {
+            this.owner = store.getOwner();
+            this.storeName = store.getStoreName();
+            this.storeDescrition = store.getStoreDescrition();
+            this.storeImage = store.getStoreImage();
+            this.storeOpenTime = store.getStoreOpenTime();
+            this.storeCloseTime = store.getStoreCloseTime();
+            this.storeStatus = store.getStoreStatus();
+        } else {
+            this.storeName = store.getStoreName() != null ? store.getStoreName() : this.storeName;
+            this.storeDescrition = store.getStoreDescrition() != null ? store.getStoreDescrition() : this.storeDescrition;
+            this.storeImage = store.getStoreImage() != null ? store.getStoreImage() : this.storeImage;
+            this.storeOpenTime = store.getStoreOpenTime() != null ? store.getStoreOpenTime() : this.storeOpenTime;
+            this.storeCloseTime = store.getStoreCloseTime() != null ? store.getStoreCloseTime() : this.storeCloseTime;
+            this.storeStatus = store.getStoreStatus() != null ? store.getStoreStatus() : this.storeStatus;
+        }
+    }
 }
