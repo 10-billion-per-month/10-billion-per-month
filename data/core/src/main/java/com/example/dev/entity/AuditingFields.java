@@ -1,5 +1,6 @@
 package com.example.dev.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,9 +18,11 @@ import java.time.LocalDateTime;
 public abstract class AuditingFields {
 
     @ColumnDefault("'N'")
-    private String deleteAt;
+    String deleteAt;
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+
 }

@@ -118,5 +118,22 @@ public class StoreWriteServiceTest {
                 .isEqualTo(store.getStoreImage());
     }
 
+    @Test
+    @DisplayName("가게를 삭제 한다.")
+    void deleteStore() {
+
+        // given : 무엇을 할것인가? 데이터 세팅
+        Owner owner = createdOwnerEntity();
+        StoreDto storeDto = createdStoreDto(owner.getOwnerId());
+        Store store = createdStore(owner, storeDto);
+
+        // when : 실제 수행
+        storeWriteService.deleteStore(store.getStoreId());
+
+        // then : 수행 결과 확인
+        Assertions.assertThat(storeRepository.findById(store.getStoreId()).isPresent())
+                        .isFalse();
+    }
+
 
 }
