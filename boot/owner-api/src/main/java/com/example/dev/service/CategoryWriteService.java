@@ -1,6 +1,7 @@
 package com.example.dev.service;
 
 import com.example.dev.dto.CategoryDto;
+import com.example.dev.entity.Category;
 import com.example.dev.entity.Store;
 import com.example.dev.exception.CommonException;
 import com.example.dev.exception.ErrorCode;
@@ -26,5 +27,28 @@ public class CategoryWriteService {
         Store store = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 가게입니다.", dto.getStoreId())));
         categoryRepository.save(dto.toEntity(store));
+    }
+
+    /**
+     * 카테고리 수정
+     * @param dto
+     */
+    public void modifyCategory(CategoryDto dto) {
+        Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 가게입니다.  categoryId = s%", dto.getCategoryId())));
+        category.modifyCategory(Category.builder()
+                        .categoryName(dto.getCategoryName())
+                        .categoryDescription(dto.getCategoryDescription())
+                .build(), false);
+    }
+
+    /**
+     * 카테고리 삭제
+     */
+    public void deleteCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 카테고리 입니다.", categoryId)));
+        category.modifyCategory(Category.builder().deleteAt("Y")
+                .build(), false);
     }
 }

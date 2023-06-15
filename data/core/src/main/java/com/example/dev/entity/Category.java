@@ -23,9 +23,21 @@ public class Category extends AuditingFields {
     private String categoryDescription;
 
     @Builder
-    public Category(Store store, String categoryName, String categoryDescription) {
+    public Category(String deleteAt, Store store, String categoryName, String categoryDescription) {
+        super.deleteAt = deleteAt;
         this.store = store;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
+    }
+
+    public void modifyCategory(Category category, boolean nullAble) {
+        if (nullAble) {
+            this.categoryName = category.getCategoryName();
+            this.categoryDescription = category.getCategoryDescription();
+        } else {
+            this.categoryName = category.getCategoryName() != null ? category.getCategoryName() : this.categoryName;
+            this.categoryDescription = category.getCategoryDescription() != null ? category.getCategoryDescription() : this.categoryDescription;
+            super.deleteAt = category.getDeleteAt() != null ? category.getDeleteAt() : super.deleteAt;
+        }
     }
 }

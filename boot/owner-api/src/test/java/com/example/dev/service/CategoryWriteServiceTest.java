@@ -79,4 +79,41 @@ public class CategoryWriteServiceTest {
                         Tuple.tuple(categoryDto.getCategoryName(), categoryDto.getCategoryDescription())
                 );
     }
+
+    @Test
+    @DisplayName("카테고리 수정")
+    void modifyCategory() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        CategoryDto categoryDto = createCategoryDto();
+        Category category = categoryRepository.save(categoryDto.toEntity(store));
+
+        // when : 실제 수행
+        categoryWriteService.modifyCategory(CategoryDto.builder()
+                        .categoryId(category.getCategoryId())
+                        .categoryName("카테고리 이름 변경")
+                        .categoryDescription("카테고리 설명")
+                .build());
+
+        // then : 수행 결과 확인
+        Category changeCategory = categoryRepository.findById(category.getCategoryId()).get();
+        Assertions.assertThat(changeCategory.getCategoryName())
+                .isEqualTo("카테고리 이름 변경");
+        Assertions.assertThat(changeCategory.getCategoryDescription())
+                .isEqualTo("카테고리 설명");
+    }
+
+    @Test
+    @DisplayName("카테고리 삭제")
+    void deleteCategory() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        CategoryDto categoryDto = createCategoryDto();
+        Category category = categoryRepository.save(categoryDto.toEntity(store));
+
+        // when : 실제 수행
+        categoryWriteService.deleteCategory(category.getCategoryId());
+
+        // then : 수행 결과 확인
+        categoryRepository.findById(category.getCategoryId())
+                .isEmpty();
+    }
 }
