@@ -70,5 +70,14 @@ public class StoreController {
         storeWriteService.modifyStore(requestDto.toDto());
     }
 
+    /**
+     * 가게 삭제
+     * @param storeId
+     */
+    @DeleteMapping("/v1/store")
+    public void deleteStore(@RequestBody Long storeId) {
+        storeWriteService.deleteStore(storeId);
+    }
+
 
 }
