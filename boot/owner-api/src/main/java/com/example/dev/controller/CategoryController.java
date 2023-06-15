@@ -1,10 +1,17 @@
 package com.example.dev.controller;
 
+import com.example.dev.dto.request.CategorysRequestDto;
 import com.example.dev.dto.request.CreateCategoryRequestDto;
-import com.example.dev.dto.request.CreateStoreRequestDto;
+import com.example.dev.dto.request.StoresRequestDto;
+import com.example.dev.dto.response.CategorysResponseDto;
+import com.example.dev.dto.response.StoresResponseDto;
+import com.example.dev.service.CategoryReadService;
 import com.example.dev.service.CategoryWriteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryController {
 
     private final CategoryWriteService categoryWriteService;
+    private final CategoryReadService categoryReadService;
 
     /**
      * 카테고리 등록
@@ -22,5 +30,15 @@ public class CategoryController {
     @PostMapping("/v1/category")
     public void createCategory(@RequestBody CreateCategoryRequestDto requestDto) {
         categoryWriteService.createCategory(requestDto.toDto());
+    }
+
+    /**
+     * 카테고리 목록 조회
+     * @param requestDto
+     * @return
+     */
+    @GetMapping("/v1/categorys")
+    public Page<CategorysResponseDto> getStores(@PageableDefault(size = 10, sort = "categoryId", direction = Sort.Direction.ASC) CategorysRequestDto requestDto) {
+        return categoryReadService.getCategorys(requestDto.toDto()).map(CategorysResponseDto::toResponseDto);
     }
 }
