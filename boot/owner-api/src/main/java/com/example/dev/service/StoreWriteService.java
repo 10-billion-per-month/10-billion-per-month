@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class StoreWriteService {
 
     private final StoreRepository storeRepository;
@@ -35,7 +36,6 @@ public class StoreWriteService {
      * 가게 수정
      * @param dto
      */
-    @Transactional
     public void modifyStore(StoreDto dto) {
         // todo 권한 검증
 
@@ -55,7 +55,6 @@ public class StoreWriteService {
      * 가게 삭제
      * @param storeId
      */
-    @Transactional
     public void deleteStore(long storeId) {
         // todo 권한 검증
 
