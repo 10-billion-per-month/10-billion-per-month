@@ -61,10 +61,13 @@ public class StoreController {
         return StoreResponseDto.toResponseDto(storeReadService.getStore(storeId));
     }
 
+    /**
+     * 가게 수정
+     * @param requestDto
+     */
     @PutMapping("/v1/store")
     public void modifyStore(@RequestBody ModifyStoreRequestDto requestDto) {
         storeWriteService.modifyStore(requestDto.toDto());
-
     }
 
 

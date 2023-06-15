@@ -12,7 +12,7 @@ class CategoryTest {
     void createCategory() {
         Category category = Category.builder()
                 .categoryName("카테고리1")
-                .storeId(1L)
+//                .storeId(1L)
                 .categoryDescription("카테고리 1 입니다.")
                 .build();
 
