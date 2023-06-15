@@ -1,12 +1,10 @@
 package com.example.dev.dto;
 
 import com.example.dev.entity.Category;
-import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 public class CategoryDto {
@@ -15,13 +13,15 @@ public class CategoryDto {
     private Long storeId;
     private String categoryName;
     private String categoryDescription;
+    private Pageable pageable;
 
     @Builder
-    public CategoryDto(Long categoryId, Long storeId, String categoryName, String categoryDescription) {
+    public CategoryDto(Long categoryId, Long storeId, String categoryName, String categoryDescription, Pageable pageable) {
         this.categoryId = categoryId;
         this.storeId = storeId;
         this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
+        this.pageable = pageable;
     }
 
     public Category toEntity(Store store) {
@@ -29,6 +29,14 @@ public class CategoryDto {
                 .store(store)
                 .categoryName(categoryName)
                 .categoryDescription(categoryDescription)
+                .build();
+    }
+
+    public static CategoryDto toDto(Category category) {
+        return CategoryDto.builder()
+                .storeId(category.getCategoryId())
+                .categoryName(category.getCategoryName())
+                .categoryDescription(category.getCategoryDescription())
                 .build();
     }
 }

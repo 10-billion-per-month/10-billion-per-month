@@ -1,7 +1,6 @@
 package com.example.dev.service;
 
 import com.example.dev.dto.CategoryDto;
-import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
 import com.example.dev.exception.CommonException;
 import com.example.dev.exception.ErrorCode;

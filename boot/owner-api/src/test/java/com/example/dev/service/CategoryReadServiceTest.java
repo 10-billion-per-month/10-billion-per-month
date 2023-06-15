@@ -7,19 +7,19 @@ import com.example.dev.entity.Store;
 import com.example.dev.repository.CategoryRepository;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @SpringBootTest
-public class CategoryWriteServiceTest {
+public class CategoryReadServiceTest {
 
     @Autowired
     StoreRepository storeRepository;
@@ -28,7 +28,7 @@ public class CategoryWriteServiceTest {
     CategoryRepository categoryRepository;
 
     @Autowired
-    CategoryWriteService categoryWriteService;
+    CategoryReadService categoryReadService;
 
     @Autowired
     OwnerRepository ownerRepository;
@@ -52,31 +52,32 @@ public class CategoryWriteServiceTest {
         );
     }
 
-    private CategoryDto createCategoryDto() {
-        return CategoryDto.builder()
-                .storeId(store.getStoreId())
+    private Category createCategoryEntity() {
+        return categoryRepository.saveAndFlush(Category.builder()
+                .store(store)
                 .categoryName(String.valueOf(Math.random()))
                 .categoryDescription(String.valueOf(Math.random()))
-                .build();
+                .build());
     }
 
     @Test
-    @DisplayName("카테고리를 등록한다.")
-    void createCategory() {
-
+    @DisplayName("가게의 카테고리 목록을 조회한다.")
+    void getCategorys() {
         // given : 무엇을 할것인가? 데이터 세팅
-        CategoryDto categoryDto = createCategoryDto();
+        Category categoryEntity1 = createCategoryEntity();
+        Category categoryEntity2 = createCategoryEntity();
+        Category categoryEntity3 = createCategoryEntity();
+        Category categoryEntity4 = createCategoryEntity();
 
         // when : 실제 수행
-        categoryWriteService.createCategory(categoryDto);
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("storeId").descending());
+
+        CategoryDto categoryDto = CategoryDto.builder()
+                .storeId(store.getStoreId())
+                .pageable(pageable)
+                .build();
+        categoryReadService.getCategorys(categoryDto);
 
         // then : 수행 결과 확인
-        List<Category> all = categoryRepository.findAll();
-        Assertions.assertThat(all)
-                .hasSize(1) // 사이즈가 하나있는걸 테스트한다.
-                .extracting("categoryName", "categoryDescription")
-                .contains(
-                        Tuple.tuple(categoryDto.getCategoryName(), categoryDto.getCategoryDescription())
-                );
     }
 }
