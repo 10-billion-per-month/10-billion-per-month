@@ -33,12 +33,15 @@ public class CategoryWriteServiceTest {
     @Autowired
     OwnerRepository ownerRepository;
 
+    @Autowired
+    DatabaseCleanup databaseCleanup;
+
     Owner owner;
     Store store;
 
     @BeforeEach
     void setUp() {
-        categoryRepository.deleteAllInBatch();
+        databaseCleanup.execute();
         owner = ownerRepository.saveAndFlush(Owner.builder()
                 .ownerName("정가영")
                 .ownerBirth(LocalDateTime.now())

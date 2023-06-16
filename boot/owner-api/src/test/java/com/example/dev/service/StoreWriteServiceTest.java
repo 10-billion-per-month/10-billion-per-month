@@ -4,6 +4,8 @@ import com.example.dev.dto.StoreDto;
 import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
 import com.example.dev.exception.CommonException;
+import com.example.dev.repository.CategoryRepository;
+import com.example.dev.repository.MenuRepository;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import org.assertj.core.api.Assertions;
@@ -25,15 +27,16 @@ public class StoreWriteServiceTest {
     StoreWriteService storeWriteService;
 
     @Autowired
-    StoreRepository storeRepository;
-
-    @Autowired
     OwnerRepository ownerRepository;
+    @Autowired
+    StoreRepository storeRepository;
+    @Autowired
+    DatabaseCleanup databaseCleanup;
 
-    // 하나의 테스트 시작 전
+
     @BeforeEach
     void setUp() {
-        ownerRepository.deleteAllInBatch();
+        databaseCleanup.execute();
     }
 
     private Store createdStore(Owner owner, StoreDto storeDto) {

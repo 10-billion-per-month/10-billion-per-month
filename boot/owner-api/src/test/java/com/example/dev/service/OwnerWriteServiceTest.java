@@ -24,13 +24,15 @@ class OwnerWriteServiceTest {
 
     @Autowired
     OwnerRepository ownerRepository;
+    @Autowired
+    DatabaseCleanup databaseCleanup;
 
     //모든 테스트가 시작전
 //    @BeforeAll
     // 하나의 테스트 시작 전
     @BeforeEach
     void setUp() {
-        ownerRepository.deleteAllInBatch();
+        databaseCleanup.execute();
     }
 
     @Test

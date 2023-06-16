@@ -31,4 +31,12 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
      */
     Integer countStoreByOwner_OwnerId(Long ownerId);
 
+    /**
+     * owner and storeId 로 Store 조회
+     * @param owner
+     * @param storeId
+     * @return
+     */
+    Optional<Store> findStoreByOwnerAndStoreId(Owner owner, Long storeId);
+
 }

@@ -1,8 +1,12 @@
 package com.example.dev.service;
 
 import com.example.dev.dto.OwnerDto;
+import com.example.dev.repository.CategoryRepository;
+import com.example.dev.repository.MenuRepository;
 import com.example.dev.repository.OwnerRepository;
+import com.example.dev.repository.StoreRepository;
 import com.example.dev.service.OwnerReadService;
+import jdk.jfr.Category;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -18,10 +22,13 @@ class OwnerReadServiceTest {
 
     @Autowired
     OwnerRepository ownerRepository;
+    @Autowired
+    DatabaseCleanup databaseCleanup;
+
 
     @BeforeEach
     void setUp() {
-        ownerRepository.deleteAllInBatch();
+        databaseCleanup.execute();
     }
 
     /**

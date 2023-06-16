@@ -29,6 +29,12 @@ dependencies {
     // RestDocs
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+    // Guava
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation 'com.google.guava:guava:32.0.1-jre'
+
+
 }
 
 //tasks.register("prepareKotlinBuildScriptModel"){}
