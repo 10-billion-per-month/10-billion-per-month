@@ -5,6 +5,8 @@ import com.example.dev.dto.response.StoreResponseDto;
 import com.example.dev.dto.response.StoresResponseDto;
 import com.example.dev.entity.Owner;
 import com.example.dev.entity.Store;
+import com.example.dev.repository.CategoryRepository;
+import com.example.dev.repository.MenuRepository;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
 import org.assertj.core.api.Assertions;
@@ -33,11 +35,17 @@ public class StoreReadServiceTest {
     OwnerRepository ownerRepository;
     @Autowired
     StoreRepository storeRepository;
+    @Autowired
+    MenuRepository menuRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    DatabaseCleanup databaseCleanup;
 
-    // 하나의 테스트 시작 전
+
     @BeforeEach
     void setUp() {
-        storeRepository.deleteAllInBatch();
+        databaseCleanup.execute();
     }
 
     private StoreDto createdStoreDto(Long ownerId) {
