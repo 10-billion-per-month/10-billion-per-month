@@ -20,7 +20,10 @@ public class Menu extends AuditingFields {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
-    private Long categoryId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
     private String menuName;
     private Integer menuPrice;
     private String menuImage;
@@ -29,9 +32,9 @@ public class Menu extends AuditingFields {
     private String menuDescription;
 
     @Builder
-    public Menu(Store store, Long categoryId, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
+    public Menu(Store store, Category category, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
         this.store = store;
-        this.categoryId = categoryId;
+        this.category = category;
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.menuImage = menuImage;

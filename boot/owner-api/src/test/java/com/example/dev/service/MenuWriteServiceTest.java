@@ -17,6 +17,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,10 +84,14 @@ public class MenuWriteServiceTest {
         return MenuDto.builder()
                 .menuName(String.valueOf(Math.random()))
                 .menuDescription(String.valueOf(Math.random()))
-                .menuPrice(Integer.valueOf((int) Math.random()))
+                .menuPrice(Integer.valueOf((int) Math.random()*100))
                 .categoryId(category1.getCategoryId())
                 .storeId(store.getStoreId())
                 .build();
+    }
+
+    public Menu saveMenu(Category category) {
+        return menuRepository.saveAndFlush(createdMenuDto().toEntity(store, category));
     }
 
     @Test
@@ -103,6 +111,43 @@ public class MenuWriteServiceTest {
                 .extracting("menuName", "menuPrice")
                 .contains(
                         Tuple.tuple(menuDto.getMenuName(), menuDto.getMenuPrice())
+                );
+    }
+
+    @Test
+    @DisplayName("메뉴 목록을 조회한다")
+    void getMenus() {
+        // given : 무엇을 할것인가? 데이터 세팅
+
+        Menu menu1 = saveMenu(category1);
+        Menu menu2 = saveMenu(category1);
+        Menu menu3 = saveMenu(category1);
+        Menu menu4 = saveMenu(category1);
+        Menu menu5 = saveMenu(category1);
+        Menu menu6 = saveMenu(category1);
+        Menu menu7 = saveMenu(category1);
+
+        Menu menu8 = saveMenu(category2);
+        Menu menu9 = saveMenu(category2);
+        Menu menu10 = saveMenu(category2);
+        Menu menu11 = saveMenu(category2);
+
+
+        // when : 실제 수행
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("menuId").descending());
+        Page<MenuDto> menus = menuReadService.getMenus(MenuDto.builder()
+                .categoryId(category1.getCategoryId())
+                .storeId(store.getStoreId())
+                .pageable(pageable)
+                .build());
+
+        // then : 수행 결과 확인
+        Assertions.assertThat(menus)
+                .hasSize(3)
+                .extracting("menuName", "menuPrice")
+                .contains(Tuple.tuple(menu7.getMenuName(), menu7.getMenuPrice())
+                , Tuple.tuple(menu6.getMenuName(), menu6.getMenuPrice())
+                , Tuple.tuple(menu5.getMenuName(), menu5.getMenuPrice())
                 );
     }
 

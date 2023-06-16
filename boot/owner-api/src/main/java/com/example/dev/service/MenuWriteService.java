@@ -26,6 +26,6 @@ public class MenuWriteService {
     public void createMenu(MenuDto dto) {
         Store store = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 가게입니다. storeId = %s", dto.getStoreId())));
-        menuRepository.saveAndFlush(dto.toEntity(store));
+        menuRepository.saveAndFlush(dto.toEntity(store, null));
     }
 }

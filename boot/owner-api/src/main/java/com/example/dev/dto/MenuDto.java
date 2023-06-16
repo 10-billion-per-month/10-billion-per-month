@@ -1,5 +1,6 @@
 package com.example.dev.dto;
 
+import com.example.dev.entity.Category;
 import com.example.dev.entity.Menu;
 import com.example.dev.entity.Store;
 import lombok.Builder;
@@ -34,10 +35,24 @@ public class MenuDto {
         this.pageable = pageable;
     }
 
-    public Menu toEntity(Store store) {
+    public static MenuDto from(Menu menu) {
+        return MenuDto.builder()
+                .menuId(menu.getMenuId())
+                .storeId(menu.getMenuId())
+                .categoryId(menu.getCategory().getCategoryId())
+                .menuName(menu.getMenuName())
+                .menuPrice(menu.getMenuPrice())
+                .menuImage(menu.getMenuImage())
+                .menuStatus(menu.getMenuStatus())
+                .menuBadge(menu.getMenuBadge())
+                .menuDescription(menu.getMenuDescription())
+                .build();
+    }
+
+    public Menu toEntity(Store store, Category category) {
         return Menu.builder()
                 .store(store)
-                .categoryId(categoryId)
+                .category(category)
                 .menuName(menuName)
                 .menuPrice(menuPrice)
                 .menuImage(menuImage)
