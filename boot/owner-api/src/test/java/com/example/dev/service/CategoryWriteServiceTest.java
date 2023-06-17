@@ -116,7 +116,9 @@ public class CategoryWriteServiceTest {
         categoryWriteService.deleteCategory(category.getCategoryId());
 
         // then : 수행 결과 확인
-        categoryRepository.findById(category.getCategoryId())
+        boolean empty = categoryRepository.findById(category.getCategoryId())
                 .isEmpty();
+
+        Assertions.assertThat(empty).isTrue();
     }
 }

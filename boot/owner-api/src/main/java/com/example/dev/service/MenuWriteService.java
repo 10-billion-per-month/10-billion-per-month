@@ -49,4 +49,14 @@ public class MenuWriteService {
 
         menu.modifyMenu(dto.toEntity(store, category), false);
     }
+
+    /**
+     * 메뉴 삭제
+     * @param dto
+     */
+    public void deleteMenu(MenuDto dto) {
+        Menu menu = menuRepository.findById(dto.getMenuId())
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("메뉴를 찾을 수 없습니다. menuId = %s", dto.getMenuId())));
+        menu.modifyMenu(Menu.builder().delteAt("Y").build(), false);
+    }
 }

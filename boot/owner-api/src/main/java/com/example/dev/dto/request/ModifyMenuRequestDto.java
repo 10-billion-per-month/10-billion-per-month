@@ -1,11 +1,13 @@
 package com.example.dev.dto.request;
 
 import com.example.dev.dto.MenuDto;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 
 @Getter
 public class ModifyMenuRequestDto {
 
+    @Min(1)
     private Long menuId;
     private Long categoryId;
     private String menuName;

@@ -1,10 +1,7 @@
 package com.example.dev.controller;
 
-import com.example.dev.dto.request.CreateMenuRequestDto;
-import com.example.dev.dto.request.MenuRequestDto;
-import com.example.dev.dto.request.ModifyMenuRequestDto;
+import com.example.dev.dto.request.*;
 import com.example.dev.dto.response.MenuResponseDto;
-import com.example.dev.dto.request.MenusRequestDto;
 import com.example.dev.dto.response.MenusResponseDto;
 import com.example.dev.service.MenuReadService;
 import com.example.dev.service.MenuWriteService;
@@ -13,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,6 +54,11 @@ public class MenuController {
     @PutMapping
     public void modifyMenu(@Valid ModifyMenuRequestDto requestDto) {
         menuWriteService.modifyMenu(requestDto.toDto());
-
     }
+
+    @DeleteMapping("/v1/menu")
+    public void deleteMenu(@Valid DeleteMenuRequestDto requestDto) {
+        menuWriteService.deleteMenu(requestDto.toDto());
+    }
+
 }
