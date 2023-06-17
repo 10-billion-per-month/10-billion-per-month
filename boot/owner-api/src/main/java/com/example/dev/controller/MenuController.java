@@ -2,6 +2,7 @@ package com.example.dev.controller;
 
 import com.example.dev.dto.request.CreateMenuRequestDto;
 import com.example.dev.dto.request.MenuRequestDto;
+import com.example.dev.dto.request.ModifyMenuRequestDto;
 import com.example.dev.dto.response.MenuResponseDto;
 import com.example.dev.dto.request.MenusRequestDto;
 import com.example.dev.dto.response.MenusResponseDto;
@@ -43,8 +44,22 @@ public class MenuController {
         return menuReadService.getMenus(requestDto.toDto(), pageable).map(MenusResponseDto::toResponseDto);
     }
 
-    @PutMapping("/v1/menu")
+    /**
+     * 메뉴 상세 조회
+     * @param requestDto
+     * @return
+     */
+    @GetMapping("/v1/menu")
     public MenuResponseDto getMenu(@Valid MenuRequestDto requestDto) {
         return MenuResponseDto.from(menuReadService.getMenu(requestDto.toDto()));
+    }
+
+    /**
+     * 메뉴 수정
+     */
+    @PutMapping
+    public void modifyMenu(@Valid ModifyMenuRequestDto requestDto) {
+        menuWriteService.modifyMenu(requestDto.toDto());
+
     }
 }
