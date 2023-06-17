@@ -1,19 +1,21 @@
 package com.example.dev.controller;
 
 import com.example.dev.dto.request.CreateMenuRequestDto;
+import com.example.dev.dto.request.MenuRequestDto;
+import com.example.dev.dto.response.MenuResponseDto;
 import com.example.dev.dto.request.MenusRequestDto;
 import com.example.dev.dto.response.MenusResponseDto;
 import com.example.dev.service.MenuReadService;
 import com.example.dev.service.MenuWriteService;
-import lombok.Getter;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +39,12 @@ public class MenuController {
      * @return
      */
     @GetMapping("/v1/menus")
-    public Page<MenusResponseDto> getMenus(MenusRequestDto requestDto) {
-        return menuReadService.getMenus(requestDto.toDto()).map(MenusResponseDto::toResponseDto);
+    public Page<MenusResponseDto> getMenus(@PageableDefault Pageable pageable, MenusRequestDto requestDto) {
+        return menuReadService.getMenus(requestDto.toDto(), pageable).map(MenusResponseDto::toResponseDto);
+    }
+
+    @PutMapping("/v1/menu")
+    public MenuResponseDto getMenu(@Valid MenuRequestDto requestDto) {
+        return MenuResponseDto.from(menuReadService.getMenu(requestDto.toDto()));
     }
 }

@@ -19,10 +19,9 @@ public class MenuDto {
     private String menuStatus;
     private String menuBadge;
     private String menuDescription;
-    private Pageable pageable;
 
     @Builder
-    public MenuDto(Pageable pageable, Long menuId, Long storeId, Long categoryId, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
+    public MenuDto(Long menuId, Long storeId, Long categoryId, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
         this.menuId = menuId;
         this.storeId = storeId;
         this.categoryId = categoryId;
@@ -32,7 +31,6 @@ public class MenuDto {
         this.menuStatus = menuStatus;
         this.menuBadge = menuBadge;
         this.menuDescription = menuDescription;
-        this.pageable = pageable;
     }
 
     public static MenuDto from(Menu menu) {

@@ -1,6 +1,5 @@
 package com.example.dev.service;
 
-import com.example.dev.dto.CategoryDto;
 import com.example.dev.dto.MenuDto;
 import com.example.dev.entity.Category;
 import com.example.dev.entity.Menu;
@@ -23,14 +22,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Random;
 
 @SpringBootTest
-public class MenuWriteServiceTest {
+public class MenuReadServiceTest {
 
     @Autowired
     MenuWriteService menuWriteService;
+    @Autowired
+    MenuReadService menuReadService;
     @Autowired
     MenuRepository menuRepository;
     @Autowired
@@ -93,23 +92,52 @@ public class MenuWriteServiceTest {
     }
 
     @Test
-    @DisplayName("메뉴를 생성한다.")
-    void createMenu() {
-
+    @DisplayName("메뉴 목록을 조회한다")
+    void getMenus() {
         // given : 무엇을 할것인가? 데이터 세팅
-        MenuDto menuDto = createdMenuDto();
+
+        Menu menu1 = saveMenu(category1);
+        Menu menu2 = saveMenu(category1);
+        Menu menu3 = saveMenu(category1);
+        Menu menu4 = saveMenu(category1);
+        Menu menu5 = saveMenu(category1);
+        Menu menu6 = saveMenu(category1);
+        Menu menu7 = saveMenu(category1);
+
+        Menu menu8 = saveMenu(category2);
+        Menu menu9 = saveMenu(category2);
+        Menu menu10 = saveMenu(category2);
+        Menu menu11 = saveMenu(category2);
+
 
         // when : 실제 수행
-        menuWriteService.createMenu(menuDto);
+        Pageable pageable = PageRequest.of(0, 3, Sort.by("menuId").descending());
+        Page<MenuDto> menus = menuReadService.getMenus(MenuDto.builder()
+                .categoryId(category1.getCategoryId())
+                .storeId(store.getStoreId())
+                .build(), pageable);
 
         // then : 수행 결과 확인
-        List<Menu> all = menuRepository.findAll();
-        Assertions.assertThat(all)
-                .hasSize(1) // 사이즈가 하나있는걸 테스트한다.
+        Assertions.assertThat(menus)
+                .hasSize(3)
                 .extracting("menuName", "menuPrice")
-                .contains(
-                        Tuple.tuple(menuDto.getMenuName(), menuDto.getMenuPrice())
+                .contains(Tuple.tuple(menu7.getMenuName(), menu7.getMenuPrice())
+                        , Tuple.tuple(menu6.getMenuName(), menu6.getMenuPrice())
+                        , Tuple.tuple(menu5.getMenuName(), menu5.getMenuPrice())
                 );
     }
 
+    @Test
+    @DisplayName("메뉴를 상세 조회한다.")
+    void getMenu() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        Menu menu = saveMenu(category1);
+
+        // when : 실제 수행
+        MenuDto menuDto = menuReadService.getMenu(MenuDto.from(menu));
+
+        // then : 수행 결과 확인
+        Assertions.assertThat(menuDto.getMenuPrice())
+                .isEqualTo(menu.getMenuPrice());
+    }
 }
