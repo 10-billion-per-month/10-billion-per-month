@@ -139,4 +139,20 @@ public class MenuWriteServiceTest {
                 .isEqualTo(menu.getMenuImage());
     }
 
+    @Test
+    @DisplayName("메뉴를 삭제한다.")
+    void deleteMenu() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        Menu menu = saveMenu(category1);
+
+        // when : 실제 수행
+        menuWriteService.deleteMenu(MenuDto.from(menu));
+
+        // then : 수행 결과 확인
+        List<Menu> all = menuRepository.findAll();
+        Assertions.assertThat(all).hasSize(0);
+
+
+    }
+
 }

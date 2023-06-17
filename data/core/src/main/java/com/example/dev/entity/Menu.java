@@ -5,6 +5,7 @@ import lombok.*;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
@@ -12,6 +13,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Where(clause = "delete_at = 'N'")
 public class Menu extends AuditingFields {
 
     @Id
@@ -32,7 +34,7 @@ public class Menu extends AuditingFields {
     private String menuDescription;
 
     @Builder
-    public Menu(Store store, Category category, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
+    public Menu(String delteAt, Store store, Category category, String menuName, Integer menuPrice, String menuImage, String menuStatus, String menuBadge, String menuDescription) {
         this.store = store;
         this.category = category;
         this.menuName = menuName;
@@ -41,6 +43,7 @@ public class Menu extends AuditingFields {
         this.menuStatus = menuStatus;
         this.menuBadge = menuBadge;
         this.menuDescription = menuDescription;
+        super.deleteAt = delteAt;
     }
 
     public void modifyMenu(Menu menu, boolean nullAble) {
