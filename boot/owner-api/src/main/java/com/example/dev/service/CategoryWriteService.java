@@ -23,10 +23,10 @@ public class CategoryWriteService {
      * 카테고리 등록
      * @param dto
      */
-    public void createCategory(CategoryDto dto) {
+    public Category createCategory(CategoryDto dto) {
         Store store = storeRepository.findById(dto.getStoreId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 가게입니다.", dto.getStoreId())));
-        categoryRepository.save(dto.toEntity(store));
+        return categoryRepository.save(dto.toEntity(store));
     }
 
     /**

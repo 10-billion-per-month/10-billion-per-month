@@ -4,16 +4,17 @@ import com.google.common.base.CaseFormat;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.test.context.TestComponent;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
+@Component
 public class DatabaseCleanup implements InitializingBean {
 
     @PersistenceContext

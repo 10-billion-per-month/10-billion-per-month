@@ -1,18 +1,14 @@
 package com.example.dev.dto.response;
 
 import com.example.dev.dto.MenuDto;
-import com.example.dev.entity.Store;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @AllArgsConstructor
-public class MenusResponseDto {
+@Builder
+public class MenuResponseDto {
 
     private Long menuId;
     private Long storeId;
@@ -22,9 +18,10 @@ public class MenusResponseDto {
     private String menuImage;
     private String menuStatus;
     private String menuBadge;
+    private String menuDescription;
 
-    public static MenusResponseDto toResponseDto(MenuDto dto) {
-        return MenusResponseDto.builder()
+    public static MenuResponseDto from(MenuDto dto) {
+        return MenuResponseDto.builder()
                 .menuId(dto.getMenuId())
                 .storeId(dto.getStoreId())
                 .categoryId(dto.getCategoryId())
@@ -33,6 +30,7 @@ public class MenusResponseDto {
                 .menuImage(dto.getMenuImage())
                 .menuStatus(dto.getMenuStatus())
                 .menuBadge(dto.getMenuBadge())
+                .menuDescription(dto.getMenuDescription())
                 .build();
     }
 }
