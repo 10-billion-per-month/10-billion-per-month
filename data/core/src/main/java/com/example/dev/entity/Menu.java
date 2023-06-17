@@ -42,4 +42,25 @@ public class Menu extends AuditingFields {
         this.menuBadge = menuBadge;
         this.menuDescription = menuDescription;
     }
+
+    public void modifyMenu(Menu menu, boolean nullAble) {
+        if (nullAble) {
+            this.category = menu.getCategory();
+            this.menuName = menu.getMenuName();
+            this.menuPrice = menu.getMenuPrice();
+            this.menuImage = menu.getMenuImage();
+            this.menuStatus = menu.getMenuStatus();
+            this.menuBadge = menu.getMenuBadge();
+            this.menuDescription = menu.getMenuDescription();
+        } else {
+            this.category = menu.getCategory() != null ? menu.getCategory() : this.category;
+            this.menuName = menu.getMenuName() != null ? menu.getMenuName() : this.menuName;
+            this.menuPrice = menu.getMenuPrice() != null ? menu.getMenuPrice() : this.menuPrice;
+            this.menuImage = menu.getMenuImage() != null ? menu.getMenuImage() : this.menuImage;
+            this.menuStatus = menu.getMenuStatus() != null ? menu.getMenuStatus() : this.menuStatus;
+            this.menuBadge = menu.getMenuBadge() != null ? menu.getMenuBadge() : this.menuBadge;
+            this.menuDescription = menu.getMenuDescription() != null ? menu.getMenuDescription() : this.menuDescription;
+            super.deleteAt = menu.getDeleteAt() != null ? menu.getDeleteAt() : super.deleteAt;
+        }
+    }
 }

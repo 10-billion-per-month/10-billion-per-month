@@ -24,6 +24,7 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @SpringBootTest
@@ -110,6 +111,32 @@ public class MenuWriteServiceTest {
                 .contains(
                         Tuple.tuple(menuDto.getMenuName(), menuDto.getMenuPrice())
                 );
+    }
+
+    @Test
+    @DisplayName("메뉴를 수정한다.")
+    void modifyMenu() {
+        // given : 무엇을 할것인가? 데이터 세팅
+        Menu menu = saveMenu(category1);
+
+        // when : 실제 수행
+        menuWriteService.modifyMenu(
+                MenuDto.builder()
+                        .menuId(menu.getMenuId())
+                        .categoryId(category2.getCategoryId())
+                        .menuName("수정완료!")
+                        .build()
+        );
+
+         Menu resultMenu = menuRepository.findById(menu.getMenuId()).get();
+
+        // then : 수행 결과 확인
+        Assertions.assertThat(resultMenu.getMenuName())
+                .isEqualTo("수정완료!");
+        Assertions.assertThat(resultMenu.getCategory().getCategoryId())
+                .isEqualTo(category2.getCategoryId());
+        Assertions.assertThat(resultMenu.getMenuImage())
+                .isEqualTo(menu.getMenuImage());
     }
 
 }
