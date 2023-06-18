@@ -18,14 +18,27 @@ public class Qrcode extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qrcodeId;
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
     private String qrcodeImage;
     private String qrcodeName;
 
     @Builder
-    public Qrcode(Long storeId, String qrcodeImage, String qrcodeName) {
-        this.storeId = storeId;
+    public Qrcode(Store store, String qrcodeImage, String qrcodeName) {
+        this.store = store;
         this.qrcodeImage = qrcodeImage;
         this.qrcodeName = qrcodeName;
+    }
+
+    public void modifyQrcode(Qrcode qrcode, boolean nullAble) {
+        if (nullAble) {
+            this.qrcodeImage = qrcode.getQrcodeImage();
+            this.qrcodeName = qrcode.getQrcodeName();
+        } else {
+            this.qrcodeImage = qrcode.getQrcodeImage() != null ? qrcode.getQrcodeImage() : this.qrcodeImage;
+            this.qrcodeName = qrcode.getQrcodeName() != null ? qrcode.getQrcodeName() : this.qrcodeName;
+            super.deleteAt = qrcode.getDeleteAt() != null ? qrcode.getDeleteAt() : super.deleteAt;
+        }
     }
 }
