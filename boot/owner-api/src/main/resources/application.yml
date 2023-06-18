@@ -33,3 +33,6 @@ logging:
           jdbc:
             extract: trace
 
+path:
+  image:
+    qrCode: './qrCode/'

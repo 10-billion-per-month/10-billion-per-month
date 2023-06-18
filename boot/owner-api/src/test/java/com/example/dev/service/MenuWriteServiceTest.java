@@ -10,6 +10,7 @@ import com.example.dev.repository.CategoryRepository;
 import com.example.dev.repository.MenuRepository;
 import com.example.dev.repository.OwnerRepository;
 import com.example.dev.repository.StoreRepository;
+import com.google.zxing.WriterException;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -151,8 +153,6 @@ public class MenuWriteServiceTest {
         // then : 수행 결과 확인
         List<Menu> all = menuRepository.findAll();
         Assertions.assertThat(all).hasSize(0);
-
-
     }
 
 }
