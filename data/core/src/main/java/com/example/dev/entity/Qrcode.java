@@ -41,4 +41,6 @@ public class Qrcode extends AuditingFields {
             super.deleteAt = qrcode.getDeleteAt() != null ? qrcode.getDeleteAt() : super.deleteAt;
         }
     }
+
+
 }
