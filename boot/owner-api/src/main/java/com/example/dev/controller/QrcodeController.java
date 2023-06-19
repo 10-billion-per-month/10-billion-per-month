@@ -1,6 +1,7 @@
 package com.example.dev.controller;
 
 import com.example.dev.dto.request.CreateQrcodeRequestDto;
+import com.example.dev.dto.request.DeleteQrcodeRequestDto;
 import com.example.dev.dto.request.ModifyQrcodeRequestDto;
 import com.example.dev.dto.request.QrcodesRequestDto;
 import com.example.dev.dto.response.CreateQrcodeResponseDto;
@@ -52,5 +53,10 @@ public class QrcodeController {
     @PutMapping("/v1/qrcode")
     public ModifyQrcodeResposeDto modifyQrcode(@Valid @RequestBody ModifyQrcodeRequestDto requestDto) {
         return ModifyQrcodeResposeDto.from(qrcodeWriteService.modifyQrcode(requestDto.toDto()));
+    }
+
+    @DeleteMapping("/v1/qrcode")
+    public void deleteQrcode(DeleteQrcodeRequestDto requestDto) {
+        qrcodeWriteService.deleteQrcode(requestDto.toDto());
     }
 }

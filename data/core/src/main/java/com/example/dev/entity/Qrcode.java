@@ -25,10 +25,11 @@ public class Qrcode extends AuditingFields {
     private String qrcodeName;
 
     @Builder
-    public Qrcode(Store store, String qrcodeImage, String qrcodeName) {
+    public Qrcode(Store store, String qrcodeImage, String qrcodeName, String deleteAt) {
         this.store = store;
         this.qrcodeImage = qrcodeImage;
         this.qrcodeName = qrcodeName;
+        super.deleteAt = deleteAt;
     }
 
     public void modifyQrcode(Qrcode qrcode, boolean nullAble) {

@@ -92,4 +92,20 @@ public class QrcodeWriteService {
 
         return QrcodeDto.from(qrcode);
     }
+
+    /**
+     * 큐알코드 삭제
+     * @param dto
+     */
+    public void deleteQrcode(QrcodeDto dto) {
+        Qrcode qrcode = qrcodeRepository.findById(dto.getQrcodeId())
+                .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("큐알코드를 찾을 수 없습니다. qrcodeId = %s", dto.getQrcodeId())));
+        qrcode.modifyQrcode(Qrcode.builder().deleteAt("Y").build(), false);
+
+        try {
+            Files.delete(Path.of(qrcode.getQrcodeImage()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
