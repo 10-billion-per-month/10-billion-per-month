@@ -21,7 +21,7 @@ public class QrCodeGenerator {
 //    @Value("${path.image.qrCode}")
 //    private String filePathPrefix;
 
-    static void generateQrCodeImage(String text, String filePath, QrcodeImageConfig imageConfig)
+    static String generateQrCodeImage(String text, String filePath, QrcodeImageConfig imageConfig)
             throws WriterException, IOException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, imageConfig.getSize(), imageConfig.getSize());
@@ -45,5 +45,7 @@ public class QrCodeGenerator {
 
         Path path = FileSystems.getDefault().getPath(fullPath);
         MatrixToImageWriter.writeToPath(bitMatrix, imageConfig.getExtension(), path, matrixToImageConfig);
+
+        return fullPath;
     }
 }

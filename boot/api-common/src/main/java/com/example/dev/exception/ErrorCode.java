@@ -12,6 +12,7 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(HttpStatus.FORBIDDEN, "Access is Denied"),
     EMAIL_DUPLICATION(HttpStatus.BAD_REQUEST, "Email is Duplication"),
     LOGIN_INPUT_INVALID(HttpStatus.BAD_REQUEST, "Login input is invalid"),
+    FILE_DELETE_ERROR(HttpStatus.BAD_REQUEST, "File delete fail"),
     ;
 
     private final HttpStatus status;
