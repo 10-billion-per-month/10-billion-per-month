@@ -29,6 +29,14 @@ public class QrcodeDto {
                 .build();
     }
 
+    public Qrcode toEntity(Store store, String qrcodeImage) {
+        return Qrcode.builder()
+                .qrcodeName(qrcodeName)
+                .qrcodeImage(qrcodeImage)
+                .store(store)
+                .build();
+    }
+
     public static QrcodeDto from(Qrcode qrcode) {
         return QrcodeDto.builder()
                 .qrcodeId(qrcode.getQrcodeId())
@@ -36,4 +44,5 @@ public class QrcodeDto {
                 .qrcodeImage(qrcode.getQrcodeImage())
                 .build();
     }
+
 }

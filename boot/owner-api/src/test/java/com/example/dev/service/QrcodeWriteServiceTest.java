@@ -21,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class QrcodeWriteServiceTest {
@@ -89,6 +90,10 @@ public class QrcodeWriteServiceTest {
                 .build();
     }
 
+    public Qrcode saveQrcode(QrcodeDto dto) {
+        return qrcodeRepository.saveAndFlush(dto.toEntity(store));
+    }
+
     @Test
     @DisplayName("큐알코드 이미지를 생성한다.")
     void createQrcodeImage() {
@@ -128,8 +133,45 @@ public class QrcodeWriteServiceTest {
                 .hasSize(1)
                 .extracting("qrcodeName", "qrcodeId")
                 .contains(new Tuple(qrcodes.get(0).getQrcodeName(), qrcodes.get(0).getQrcodeId()));
+    }
 
+    @Test
+    @DisplayName("큐알코드를 수정한다")
+    void modifyQrcode() {
+        // given
+        Qrcode qrcode = saveQrcode(createQrcodeDto());
 
+        // when
+        QrcodeDto qrcodeDto = QrcodeDto.builder()
+                .qrcodeId(qrcode.getQrcodeId())
+                .qrcodeName("qrcode 이름 변경")
+                .build();
+        qrcodeWriteService.modifyQrcode(qrcodeDto);
+
+        // then
+        Qrcode changeQrcode = qrcodeRepository.findById(qrcode.getQrcodeId()).get();
+        Assertions.assertThat(changeQrcode.getQrcodeName())
+                .isEqualTo("qrcode 이름 변경");
+    }
+
+    @Test
+    @DisplayName("큐알코드 이미지를 수정한다")
+    void modifyQrcodeImage() {
+        // given
+//        Qrcode qrcode = saveQrcode(createQrcodeDto());
+        QrcodeDto qrcode = qrcodeWriteService.createQrcode(createQrcodeDto());
+
+        // when
+        QrcodeDto qrcodeDto = QrcodeDto.builder()
+                .qrcodeId(qrcode.getQrcodeId())
+                .qrcodeImageConfig(QrcodeImageConfig.builder().extension("png").offColor(0xffed8878).onColor(0xff111111).size(200).build())
+                .build();
+        qrcodeWriteService.modifyQrcode(qrcodeDto);
+
+        // then
+        Qrcode changeQrcode = qrcodeRepository.findById(qrcode.getQrcodeId()).get();
+//        Assertions.assertThat(changeQrcode.getQrcodeName())
+//                .isEqualTo("qrcode 이름 변경");
     }
 
 
