@@ -174,5 +174,17 @@ public class QrcodeWriteServiceTest {
 //                .isEqualTo("qrcode 이름 변경");
     }
 
+    @Test
+    @DisplayName("큐알코드를 삭제한다")
+    void deleteQrcode() {
+        // given
+        QrcodeDto qrcode = qrcodeWriteService.createQrcode(createQrcodeDto());
+        // when
+        qrcodeWriteService.deleteQrcode(QrcodeDto.builder().qrcodeId(qrcode.getQrcodeId()).build());
+        // then
+        qrcodeRepository.findById(qrcode.getQrcodeId())
+                .isEmpty();
+    }
+
 
 }
