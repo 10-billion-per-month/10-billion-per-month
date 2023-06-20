@@ -54,5 +54,7 @@ bootJar {
 	from("${asciidoctor.outputDir}") {
 		into 'static/docs'
 	}
+
+	tasks.register("prepareKotlinBuildScriptModel"){}
 }
 

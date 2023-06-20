@@ -7,6 +7,7 @@ import com.example.dev.exception.CommonException;
 import com.example.dev.exception.ErrorCode;
 import com.example.dev.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ public class OrderWriteService {
     private final QrcodeRepository qrcodeRepository;
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
+    private final RabbitTemplate rabbitTemplate;
 
     /**
      * 주문상세등록
@@ -44,6 +46,7 @@ public class OrderWriteService {
 
         // 주문 상세 목록 저장
         orderDetailRepository.saveAll(orderDetails);
+
     }
 
     /**
@@ -56,5 +59,10 @@ public class OrderWriteService {
                         .qrcode(qrcode)
                         .store(qrcode.getStore())
                 .build());
+    }
+
+
+    public void sendMessage(){
+        rabbitTemplate.convertAndSend("order", "hello world");
     }
 }
