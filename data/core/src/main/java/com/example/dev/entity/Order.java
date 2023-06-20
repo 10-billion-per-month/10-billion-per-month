@@ -24,13 +24,15 @@ public class Order extends AuditingFields {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qrcode_id")
     private Qrcode qrcode;
-    private Long storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @Builder
-    public Order(Integer orderTotalPrice, String orderStatus, Qrcode qrcode, Long storeId) {
+    public Order(Integer orderTotalPrice, String orderStatus, Qrcode qrcode, Store store) {
         this.orderTotalPrice = orderTotalPrice;
         this.orderStatus = orderStatus;
         this.qrcode = qrcode;
-        this.storeId = storeId;
+        this.store = store;
     }
 }

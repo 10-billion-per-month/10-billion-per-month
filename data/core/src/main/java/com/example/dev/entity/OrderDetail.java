@@ -25,17 +25,17 @@ public class OrderDetail extends AuditingFields {
     @JoinColumn(name = "menu_id")
     private Menu menu;
     private Integer orderMenuPrice;
-    private Integer orderCount;
-    private Integer orderTotalPrice;
+    private Integer orderDetailCount;
+    private Integer orderDetailTotalPrice;
     private String orderDetailStatus;
 
     @Builder
-    public OrderDetail(Order order, Menu menu, Integer orderMenuPrice, Integer orderCount, Integer orderTotalPrice, String orderDetailStatus) {
+    public OrderDetail(Order order, Menu menu, Integer orderMenuPrice, Integer orderDetailCount, Integer orderDetailTotalPrice, String orderDetailStatus) {
         this.order = order;
         this.menu = menu;
         this.orderMenuPrice = orderMenuPrice;
-        this.orderCount = orderCount;
-        this.orderTotalPrice = orderTotalPrice;
+        this.orderDetailCount = orderDetailCount;
+        this.orderDetailTotalPrice = orderDetailTotalPrice;
         this.orderDetailStatus = orderDetailStatus;
     }
 }
