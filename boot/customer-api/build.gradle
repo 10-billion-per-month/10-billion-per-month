@@ -1,0 +1,58 @@
+plugins {
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
+// rest-docs 설정
+configurations {
+	asciidoctorExt
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+
+	runtimeOnly 'com.h2database:h2'
+
+	// import project
+	implementation project(':data-core')
+	implementation project(':boot-api-common')
+
+	// RestDocs
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+
+	// Guava
+	// https://mvnrepository.com/artifact/com.google.guava/guava
+	implementation 'com.google.guava:guava:32.0.1-jre'
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+
+	sources { // 특정 파일만 html로 만든다.
+		include("**/index.adoc")
+	}
+	baseDirFollowsSourceFile() // 다른 adoc 파일을 include 할 때 경로를 baseDir로 맞춘다.
+	dependsOn test
+}
+
+bootJar {
+	dependsOn asciidoctor
+	// asciidoctor의 결과물을 jar에 포함시킨다.
+	from("${asciidoctor.outputDir}") {
+		into 'static/docs'
+	}
+}
+
