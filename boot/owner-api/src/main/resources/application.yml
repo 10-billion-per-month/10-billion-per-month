@@ -36,3 +36,11 @@ logging:
 path:
   image:
     qrCode: './qrCode/'
+
+
+rabbitmq:
+  host: localhost # 호스트 아이피 - localhost
+  port: 5672 # 포트 기본은 5672
+  username: dev # 아이디
+  password: dev # 비밀번호
+#    virtual-host: # vhost가 있다면 설정

@@ -137,5 +137,11 @@ public class OrderWriteServiceTest {
 
     }
 
+    @Test
+    @DisplayName("rabbitMQ")
+    void sendMessage() {
+        orderWriteService.sendMessage();
+    }
+
 
 }

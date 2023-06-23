@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8089
 
 spring:
   main:
@@ -32,3 +32,8 @@ logging:
         orm:
           jdbc:
             extract: trace
+rabbitmq:
+  host: localhost # 호스트 아이피 - localhost
+  port: 5672 # 포트 기본은 5672
+  username: dev # 아이디
+  password: dev # 비밀번호
