@@ -18,6 +18,7 @@ public class OrderDetailDto {
     private Long orderDetailId;
     private Long orderId;
     private Long menuId;
+    private String menuName;
     private Integer orderMenuPrice;
     private Integer orderDetailCount;
     private Integer orderDetailTotalPrice;
@@ -31,6 +32,19 @@ public class OrderDetailDto {
                 .orderDetailCount(orderDetailCount)
                 .orderDetailTotalPrice(orderDetailTotalPrice)
                 .orderDetailStatus(orderDetailStatus)
+                .build();
+    }
+
+    public static OrderDetailDto from(OrderDetail orderDetail) {
+        return OrderDetailDto.builder()
+                .orderDetailId(orderDetail.getOrderDetailId())
+                .orderId(orderDetail.getOrder().getOrderId())
+                .menuId(orderDetail.getMenu().getMenuId())
+                .menuName(orderDetail.getMenu().getMenuName())
+                .orderMenuPrice(orderDetail.getOrderMenuPrice())
+                .orderDetailCount(orderDetail.getOrderDetailCount())
+                .orderDetailTotalPrice(orderDetail.getOrderDetailTotalPrice())
+                .orderDetailStatus(orderDetail.getOrderDetailStatus())
                 .build();
     }
 
