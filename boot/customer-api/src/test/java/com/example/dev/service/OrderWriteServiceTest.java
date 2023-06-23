@@ -115,7 +115,7 @@ public class OrderWriteServiceTest {
         OrderDto orderDto = OrderDto.builder().orderDetailList(orderDetailList).qrcodeId(qrcode.getQrcodeId()).build();
 
         // when
-        orderWriteService.createOrderDetail(orderDto);
+        orderWriteService.createOrder(orderDto);
 
         // then
         List<OrderDetail> orderDetails = orderDetailRepository.findAllByOrder_Qrcode_QrcodeId(qrcode.getQrcodeId());

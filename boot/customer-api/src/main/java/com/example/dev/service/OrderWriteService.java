@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +29,18 @@ public class OrderWriteService {
 
     /**
      * 주문상세등록
+     *
      * @param dto
+     * @return
      */
-    public void createOrderDetail(OrderDto dto) {
+    public List<OrderDetailDto> createOrder(OrderDto dto) {
         // 큐알코드 아이디 검증
         Qrcode qrcode = qrcodeRepository.findById(dto.getQrcodeId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("등록되지 않은 큐알코드입니다. qrcodeId = %s", dto.getQrcodeId())));
 
         // 진행중인 주문 조회 -> 없을 경우 신규 주문 생성
         Order order = orderRepository.findByQrcodeQrcodeIdAndOrderStatusNot(qrcode.getQrcodeId(), "COMPLETE")
-                .orElse(createOrder(qrcode));
+                .orElse(saveOrder(qrcode));
 
         // 주문 상세 목록 -> entity
         List<OrderDetail> orderDetails = dto.getOrderDetailList().stream().map(
@@ -45,8 +48,8 @@ public class OrderWriteService {
         ).collect(Collectors.toList());
 
         // 주문 상세 목록 저장
-        orderDetailRepository.saveAll(orderDetails);
-
+        orderDetailRepository.saveAllAndFlush(orderDetails);
+        return orderDetailRepository.findAllByOrderOrderId(order.getOrderId()).stream().map(OrderDetailDto::from).collect(Collectors.toList());
     }
 
     /**
@@ -54,7 +57,7 @@ public class OrderWriteService {
      * @param qrcode
      * @return
      */
-    public Order createOrder(Qrcode qrcode) {
+    public Order saveOrder(Qrcode qrcode) {
         return orderRepository.saveAndFlush(Order.builder()
                         .qrcode(qrcode)
                         .store(qrcode.getStore())

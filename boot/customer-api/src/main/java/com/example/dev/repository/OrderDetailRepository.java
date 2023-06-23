@@ -10,4 +10,5 @@ import java.util.List;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> {
 
     List<OrderDetail> findAllByOrder_Qrcode_QrcodeId(Long qrcodeId);
+    List<OrderDetail> findAllByOrderOrderId(Long orderId);
 }
