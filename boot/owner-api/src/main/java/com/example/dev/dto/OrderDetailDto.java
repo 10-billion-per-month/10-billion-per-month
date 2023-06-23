@@ -3,9 +3,6 @@ package com.example.dev.dto;
 import com.example.dev.entity.Menu;
 import com.example.dev.entity.Order;
 import com.example.dev.entity.OrderDetail;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,4 +31,15 @@ public class OrderDetailDto {
                 .build();
     }
 
+    public static OrderDetailDto from(OrderDetail orderDetail) {
+        return OrderDetailDto.builder()
+                .orderDetailId(orderDetail.getOrderDetailId())
+                .orderId(orderDetail.getOrder().getOrderId())
+                .menuId(orderDetail.getMenu().getMenuId())
+                .orderMenuPrice(orderDetail.getOrderMenuPrice())
+                .orderDetailCount(orderDetail.getOrderDetailCount())
+                .orderDetailTotalPrice(orderDetail.getOrderDetailTotalPrice())
+                .orderDetailStatus(orderDetail.getOrderDetailStatus())
+                .build();
+    }
 }
