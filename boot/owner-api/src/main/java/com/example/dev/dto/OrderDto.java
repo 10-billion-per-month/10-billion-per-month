@@ -1,6 +1,7 @@
 package com.example.dev.dto;
 
 import com.example.dev.entity.Order;
+import com.example.dev.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class OrderDto {
 
     private Long orderId;
     private Integer orderTotalPrice;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private Long qrcodeId;
     private Long storeId;
     private List<OrderDetailDto> orderDetailList;

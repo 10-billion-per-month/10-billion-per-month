@@ -44,7 +44,7 @@ public class OrderReadService {
         Qrcode qrcode = qrcodeRepository.findById(dto.getQrcodeId())
                 .orElseThrow(() -> new CommonException(ErrorCode.INVALID_INPUT_VALUE, String.format("큐알코드를 찾을 수 없습니다. qrcodeId = %s", dto.getQrcodeId())));
 
-        if(StringUtils.isBlank(dto.getOrderStatus())) {
+        if(dto.getOrderStatus() == null) {
             return orderRepository.findAllByQrcodeQrcodeId(qrcode.getQrcodeId(), pageable).map(OrderDto::from);
         } else {
             return orderRepository.findAllByQrcodeQrcodeIdAndOrderStatus(qrcode.getQrcodeId(), dto.getOrderStatus(), pageable).map(OrderDto::from);

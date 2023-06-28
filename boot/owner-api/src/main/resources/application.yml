@@ -44,3 +44,6 @@ rabbitmq:
   username: dev # 아이디
   password: dev # 비밀번호
 #    virtual-host: # vhost가 있다면 설정
+
+secret:
+  key: 2023_06_28_owner_api_secret_key_wjdrkdudWkd

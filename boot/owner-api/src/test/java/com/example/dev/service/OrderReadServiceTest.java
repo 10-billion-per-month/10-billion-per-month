@@ -6,7 +6,6 @@ import com.example.dev.entity.*;
 import com.example.dev.repository.*;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 public class OrderReadServiceTest {
@@ -85,7 +82,7 @@ public class OrderReadServiceTest {
         menu1 = menuRepository.saveAndFlush(Menu.builder()
                 .menuName(String.valueOf(Math.random()))
                 .menuDescription(String.valueOf(Math.random()))
-                .menuPrice(Integer.valueOf((int) (Math.random()*10000)))
+                .menuPrice((int) (Math.random()*10000))
                 .category(category)
                 .store(store)
                 .build());
@@ -93,19 +90,19 @@ public class OrderReadServiceTest {
         menu2 = menuRepository.saveAndFlush(Menu.builder()
                 .menuName(String.valueOf(Math.random()))
                 .menuDescription(String.valueOf(Math.random()))
-                .menuPrice(Integer.valueOf((int) (Math.random()*10000)))
+                .menuPrice((int) (Math.random()*10000))
                 .category(category)
                 .store(store)
                 .build());
         order1 = orderRepository.saveAndFlush(Order.builder()
                         .store(store)
                         .qrcode(qrcode)
-                        .orderStatus("진행중")
+                        .orderStatus(OrderStatus.PROGRESS)
                 .build());
         order2 = orderRepository.saveAndFlush(Order.builder()
                 .store(store)
                 .qrcode(qrcode)
-                        .orderStatus("완료")
+                        .orderStatus(OrderStatus.COMPLETE)
                 .build());
     }
 
