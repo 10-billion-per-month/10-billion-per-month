@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,20 +33,25 @@ public class SecurityConfig {
 //                        .requestMatchers("/", "/home").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 안쓰겠다.
-                .and()
+                .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 안쓰겠다.
+//                .and()
                 .csrf(AbstractHttpConfigurer::disable) // csrf 안씀 - 쓸 경우 토큰이 없을 경우 예외 발생
-                .formLogin().disable()
+                .formLogin(AbstractHttpConfigurer::disable)
 //                .cors().configurationSource(corsConfigurationSource())
 //                .and()
                 .addFilterBefore(new JwtTokenFilter(key, ownerRepository), UsernamePasswordAuthenticationFilter.class)
 //                .addFilterBefore(new ExceptionHandlerFilter(), JwtTokenFilter.class)
 //                .addFilterAfter (new AuthorityFilter(), JwtTokenFilter.class)
-                .exceptionHandling()
+//                .exceptionHandling()
 //                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
         ;
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 

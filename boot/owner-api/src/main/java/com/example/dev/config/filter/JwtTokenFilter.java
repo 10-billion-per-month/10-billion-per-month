@@ -26,7 +26,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     private final OwnerRepository ownerRepository;
 
     @Override
-
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         //get header

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -38,6 +39,17 @@ public class OwnerDto implements UserDetails {
                 .ownerStatus(ownerStatus)
                 .build();
     }
+
+    public Owner toEntity(PasswordEncoder passwordEncoder) {
+        return Owner.builder()
+                .ownerEmail(ownerEmail)
+                .ownerPw(passwordEncoder.encode(ownerPw))
+                .ownerName(ownerName)
+                .ownerBirth(ownerBirth)
+                .ownerStatus(ownerStatus)
+                .build();
+    }
+
 
 
     @Override

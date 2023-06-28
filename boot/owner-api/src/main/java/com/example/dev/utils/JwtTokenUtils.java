@@ -17,10 +17,10 @@ import java.util.Map;
  */
 public class JwtTokenUtils {
 
-    private final String securityKey = "hello world"; // TODO 민감정보는 따로 분리하는 것이 좋다
-    private final Long expiredTime = 1000 * 60L * 60L * 3L; // 유효시간 3시간
+    private static final String securityKey = "hello world"; // TODO 민감정보는 따로 분리하는 것이 좋다
+    private static final Long expiredTime = 1000 * 60L * 60L * 3L; // 유효시간 3시간
 
-    public String generateJwtToken(OwnerDto owner) {
+    public static String generateJwtToken(OwnerDto owner) {
         Claims claims = Jwts.claims();
         claims.put("ownerId", owner.getOwnerId());
 
