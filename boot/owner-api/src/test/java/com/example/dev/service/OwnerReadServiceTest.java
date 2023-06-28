@@ -19,6 +19,8 @@ class OwnerReadServiceTest {
 
     @Autowired
     OwnerReadService ownerReadService;
+    @Autowired
+    OwnerWriteService ownerWriteService;
 
     @Autowired
     OwnerRepository ownerRepository;
@@ -36,7 +38,7 @@ class OwnerReadServiceTest {
      * @return
      */
     private OwnerDto createOwnerDto() {
-        return OwnerDto.builder().ownerEmail("wjdrkdudWkd@email.com").build();
+        return OwnerDto.builder().ownerEmail("wjdrkdudWkd@email.com").ownerPw("비밀임").build();
     }
 
     /**
@@ -44,7 +46,10 @@ class OwnerReadServiceTest {
      * @return
      */
     private OwnerDto createFailEmailOwnerDto() {
-        return OwnerDto.builder().ownerEmail("wjdrkdud").build();
+        return OwnerDto.builder()
+                .ownerEmail("wjdrkdud")
+                .ownerPw("비밀임")
+                .build();
     }
 
     @DisplayName("사장님 아이디가 정규식을 통과하고 중복이 아니면 false 를 반환한다.")
@@ -85,6 +90,21 @@ class OwnerReadServiceTest {
         Assertions.assertThatThrownBy(() -> ownerReadService.duplicateCheckOwnerEmail(failEmailDto))
                 .isInstanceOf(IllegalArgumentException.class)
                 .message().isEqualTo("이메일 형식이 아닙니다.");
+    }
+    
+    @Test
+    void login() {
+        // given
+        OwnerDto ownerDto = createOwnerDto();
+        ownerWriteService.createOwner(ownerDto);
+
+        // when 
+        String accessToken = ownerReadService.login(ownerDto);
+
+        // then
+        Assertions.assertThat(accessToken)
+                .isNotBlank();
+        System.out.println("accessToken = " + accessToken);
     }
 
 
