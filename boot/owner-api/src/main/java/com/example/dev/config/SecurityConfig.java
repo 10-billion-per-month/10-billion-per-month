@@ -2,8 +2,10 @@ package com.example.dev.config;
 
 
 import com.example.dev.config.filter.JwtTokenFilter;
+import com.example.dev.config.filter.ExceptionHandlerFilter;
 import com.example.dev.repository.OwnerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    @Value("${secret.key}")
     private String key;
     private final OwnerRepository ownerRepository;
 
@@ -34,17 +37,10 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 안쓰겠다.
-//                .and()
                 .csrf(AbstractHttpConfigurer::disable) // csrf 안씀 - 쓸 경우 토큰이 없을 경우 예외 발생
                 .formLogin(AbstractHttpConfigurer::disable)
-//                .cors().configurationSource(corsConfigurationSource())
-//                .and()
                 .addFilterBefore(new JwtTokenFilter(key, ownerRepository), UsernamePasswordAuthenticationFilter.class)
-//                .addFilterBefore(new ExceptionHandlerFilter(), JwtTokenFilter.class)
-//                .addFilterAfter (new AuthorityFilter(), JwtTokenFilter.class)
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .addFilterBefore(new ExceptionHandlerFilter(), JwtTokenFilter.class)
         ;
         return http.build();
     }

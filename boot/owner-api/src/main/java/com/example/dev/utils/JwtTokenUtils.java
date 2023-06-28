@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class JwtTokenUtils {
 
-    private static final String securityKey = "hello world"; // TODO 민감정보는 따로 분리하는 것이 좋다
+    private static final String securityKey = "2023_06_28_owner_api_secret_key_wjdrkdudWkd"; // TODO 민감정보는 따로 분리하는 것이 좋다
     private static final Long expiredTime = 1000 * 60L * 60L * 3L; // 유효시간 3시간
 
     public static String generateJwtToken(OwnerDto owner) {
@@ -35,12 +35,12 @@ public class JwtTokenUtils {
                 .setSubject(owner.getOwnerId().toString())
                 .setClaims(claims)
                 .setExpiration(new Date(now.getTime() + expiredTime))
-                .signWith(SignatureAlgorithm.HS256, securityKey)
+                .signWith(getKey(securityKey), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public static String getOwnerId(String token, String key) {
-        return extractClaims(token, key).get("ownerId", String.class);
+    public static Long getOwnerId(String token, String key) {
+        return extractClaims(token, key).get("ownerId", Long.class);
     }
 
     public static boolean isExpired(String token, String key) {

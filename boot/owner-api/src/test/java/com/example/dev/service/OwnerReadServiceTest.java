@@ -107,7 +107,4 @@ class OwnerReadServiceTest {
         System.out.println("accessToken = " + accessToken);
     }
 
-
-
-
 }

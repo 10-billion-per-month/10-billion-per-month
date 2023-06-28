@@ -33,4 +33,14 @@ public class ApiResponse<T> {
     public static<Void> ApiResponse<Void> ok() {
         return of(HttpStatus.OK, HttpStatus.OK.name(), null);
     }
+
+    @Override
+    public String toString() {
+        return "ApiResponse{" +
+                "code=" + code +
+                ", status=" + status +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

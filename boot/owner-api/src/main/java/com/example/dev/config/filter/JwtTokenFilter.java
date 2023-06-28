@@ -27,39 +27,22 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
         //get header
         final String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) throw new CommonException(ErrorCode.UNAUTHORIZED_TOKEN);
-//        if (header == null || !header.startsWith("Bearer ")) {
-//            log.error("Authorization Header does not start with Bearer {} \n", request.getRequestURL());
-//            throw new CommonException(ErrorCode.UNAUTHORIZED_TOKEN);
-////            filterChain.doFilter(request, response);
-//        }
 
-        try {
-            final String token = header.split(" ")[1].trim();
-            if (JwtTokenUtils.isExpired(token, key)) throw new CommonException(ErrorCode.EXPIRED_TOKEN);
+        final String token = header.split(" ")[1].trim();
+        if (JwtTokenUtils.isExpired(token, key)) throw new CommonException(ErrorCode.EXPIRED_TOKEN);
 
-//            if (JwtTokenUtils.isExpired(token, key)) {
-//                throw new CommonException(ErrorCode.EXPIRED_TOKEN);
-////                filterChain.doFilter(request, response);
-//            }
+        Long ownerId = JwtTokenUtils.getOwnerId(token, key);
+        ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new CommonException(ErrorCode.UNAUTHORIZED_TOKEN));
 
-            String ownerId = JwtTokenUtils.getOwnerId(token, key);
-            ownerRepository.findById(Long.parseLong(ownerId))
-                    .orElseThrow(() -> new CommonException(ErrorCode.UNAUTHORIZED_TOKEN));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                ownerId, null);
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    ownerId, null);
-
-            authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        } catch (RuntimeException e) {
-            log.error("Error occurs while validating. {}", e.toString());
-            filterChain.doFilter(request, response);
-            return;
-        }
+        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);
     }
